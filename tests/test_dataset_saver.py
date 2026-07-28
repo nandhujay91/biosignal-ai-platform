@@ -5,7 +5,7 @@ from src.windowing import WindowGenerator
 
 def test_dataset_saver():
 
-    processed = SignalPreprocessor.run("data/raw")
+    processed = SignalPreprocessor.run("data/test")
 
     windows = WindowGenerator.generate(processed)
 

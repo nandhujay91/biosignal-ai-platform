@@ -3,7 +3,7 @@ from src.data_loader import BinaryReader
 
 def test_bin_reader():
 
-    data = BinaryReader.read_all_bin_files("data/raw")
+    data = BinaryReader.read_all_bin_files("data/test")
 
     for name, signal in data.items():
 

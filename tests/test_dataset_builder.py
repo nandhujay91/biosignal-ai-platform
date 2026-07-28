@@ -14,7 +14,7 @@ def test_dataset_builder():
     # Step 1: Preprocess signals
 
     processed = SignalPreprocessor.run(
-        "data/raw"
+        "data/test"
     )
 
 

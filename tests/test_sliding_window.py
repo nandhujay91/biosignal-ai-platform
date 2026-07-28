@@ -5,7 +5,7 @@ from src.windowing import SlidingWindow
 def test_sliding_window():
 
     signals = SignalPreprocessor.run(
-        "data/raw"
+        "data/test"
     )
 
     ecg = signals["Ephy"]

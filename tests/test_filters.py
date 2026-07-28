@@ -7,7 +7,7 @@ from src.validation import SignalValidator
 def test_bandpass_filter():
 
     raw_signals = BinaryReader.read_all_bin_files(
-        "data/raw"
+        "data/test"
     )
 
     parsed_signals = SignalParser.parse_signals(

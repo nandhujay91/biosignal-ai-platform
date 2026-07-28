@@ -10,7 +10,7 @@ from src.validation import SignalValidator
 
 def test_ecg_quality():
 
-    raw = BinaryReader.read_all_bin_files("data/raw")
+    raw = BinaryReader.read_all_bin_files("data/test")
 
     parsed = SignalParser.parse_signals(raw)
 

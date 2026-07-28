@@ -5,7 +5,7 @@ from src.parser import SignalParser
 def test_signal_parser():
 
     raw_signals = BinaryReader.read_all_bin_files(
-        "data/raw"
+        "data/test"
     )
 
     parsed_signals = SignalParser.parse_signals(
