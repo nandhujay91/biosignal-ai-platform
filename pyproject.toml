@@ -1,0 +1,69 @@
+[project]
+name = "embedding-model-biosignal"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+    "einops>=0.8.2",
+    "evidently>=0.7.21",
+    "fastapi>=0.140.9",
+    "loguru>=0.7.3",
+    "matplotlib>=3.11.1",
+    "mlflow>=3.14.0",
+    "numpy==1.26.4",
+    "pandas==2.2.3",
+    "prometheus-client>=0.26.0",
+    "pytest>=9.1.1",
+    "python-dotenv>=1.2.2",
+    "pyyaml>=6.0.3",
+    "requests>=2.34.2",
+    "scikit-learn>=1.9.0",
+    "scipy>=1.17.1",
+    "shap==0.46.0",
+    "tensorboard>=2.21.0",
+    "torch>=2.13.0",
+    "torchaudio>=2.11.0",
+    "torchvision>=0.28.0",
+    "tqdm>=4.70.0",
+    "uvicorn>=0.51.0",
+]
+
+
+[dependency-groups]
+
+dev = [
+    "black>=26.5.1",
+    "isort>=8.0.1",
+    "mypy>=2.3.0",
+    "pytest>=9.1.1",
+    "ruff>=0.16.0",
+]
+
+
+# Pytest configuration
+
+[tool.pytest.ini_options]
+
+pythonpath = [
+    "."
+]
+
+testpaths = [
+    "tests"
+]
+
+python_files = [
+    "test_*.py"
+]
+
+
+# External library warning filters
+
+filterwarnings = [
+    "ignore::DeprecationWarning:litestar.*",
+    "ignore::PendingDeprecationWarning:litestar.*",
+    "ignore::DeprecationWarning:shap.*",
+    "ignore::PendingDeprecationWarning:shap.*",
+]

@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Data
+data/
+
+# ML artifacts
+artifacts/
+mlruns/
+mlflow.db
+
+# Reports
+reports/
+
+# IDE
+.vscode/
+
+# Environment
+.env
+# Logs
+logs/
+*.log

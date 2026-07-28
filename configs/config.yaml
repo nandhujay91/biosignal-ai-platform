@@ -1,0 +1,19 @@
+project:
+  name: embedding_model_biosignal
+  version: 1.0.0
+  random_seed: 42
+
+data:
+  raw: data/raw
+  parsed: data/parsed
+  processed: data/processed
+  windows: data/windows
+  embeddings: data/embeddings
+
+window:
+  duration_seconds: 5
+  overlap_seconds: 2.5
+
+logging:
+  directory: logs
+  filename: project.log

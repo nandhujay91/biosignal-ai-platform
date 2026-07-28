@@ -1,0 +1,10 @@
+model:
+  directory: artifacts/model/v1
+  input_dim: 131
+  num_classes: 3
+
+
+confidence:
+  Normal: 0.70
+  Alert: 0.70
+  Critical: 0.80
