@@ -1,12 +1,22 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # Virtual environment
 .venv/
 
 # Data
-data/
+# Ignore real biosignal/raw data
+data/raw/
+
+# Keep CI test fixture folder
+!data/test/
+!data/test/**
+
+# Ignore generated binary test files
+data/test/*.bin
 
 # ML artifacts
 artifacts/
@@ -16,11 +26,12 @@ mlflow.db
 # Reports
 reports/
 
+# Logs
+logs/
+*.log
+
 # IDE
 .vscode/
 
 # Environment
 .env
-# Logs
-logs/
-*.log
