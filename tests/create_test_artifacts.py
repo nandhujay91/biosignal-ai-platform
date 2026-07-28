@@ -7,9 +7,7 @@ import torch
 
 from src.classifier.classifier import EmbeddingClassifier
 
-ARTIFACT_DIR = Path(
-    "artifacts/classifier"
-)
+ARTIFACT_DIR = Path("artifacts/classifier")
 
 
 def create_test_artifacts() -> None:
@@ -28,9 +26,7 @@ def create_test_artifacts() -> None:
         num_classes=3,
     )
 
-    checkpoint = {
-        "model_state_dict": model.state_dict()
-    }
+    checkpoint = {"model_state_dict": model.state_dict()}
 
     torch.save(
         checkpoint,
@@ -52,20 +48,14 @@ def create_test_artifacts() -> None:
         ARTIFACT_DIR / "class_mapping.json",
         "w",
     ) as file:
-
         json.dump(
             class_mapping,
             file,
             indent=4,
         )
 
-    (
-        ARTIFACT_DIR / "version.txt"
-    ).write_text(
-        "v1.0.0"
-    )
+    (ARTIFACT_DIR / "version.txt").write_text("v1.0.0")
 
 
 if __name__ == "__main__":
-
     create_test_artifacts()

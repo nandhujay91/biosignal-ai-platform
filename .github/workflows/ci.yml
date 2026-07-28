@@ -22,7 +22,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-
     steps:
 
 
@@ -51,18 +50,24 @@ jobs:
 
 
       - name: Create synthetic test data
+        env:
+          PYTHONPATH: .
         run: |
           uv run python tests/create_test_data.py
 
 
 
       - name: Create synthetic model artifacts
+        env:
+          PYTHONPATH: .
         run: |
           uv run python tests/create_test_artifacts.py
 
 
 
       - name: Run pytest
+        env:
+          PYTHONPATH: .
         run: |
           uv run pytest
 
@@ -72,12 +77,9 @@ jobs:
 
   quality:
 
-
     name: Code Quality Checks
 
-
     runs-on: ubuntu-latest
-
 
 
     steps:
@@ -121,4 +123,4 @@ jobs:
 
       - name: MyPy check
         run: |
-          uv run mypy src
+          uv run mypy src scripts
