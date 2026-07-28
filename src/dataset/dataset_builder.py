@@ -48,19 +48,11 @@ class DatasetBuilder:
                     config["overlap"],
                 )
 
-                window_size = (
-                    signal.sampling_rate
-                    * window_duration
-                )
+                window_size = signal.sampling_rate * window_duration
 
-                step_size = int(
-                    window_size
-                    * (1 - overlap)
-                )
+                step_size = int(window_size * (1 - overlap))
 
-                dataset = signal_windows.astype(
-                    np.float32
-                )
+                dataset = signal_windows.astype(np.float32)
 
                 datasets[signal_name] = dataset
 
@@ -84,22 +76,15 @@ class DatasetBuilder:
                     overlap=overlap,
                     normalization=normalization,
                     filter_type=(
-                        filter_config["type"]
-                        if filter_config["enabled"]
-                        else "none"
+                        filter_config["type"] if filter_config["enabled"] else "none"
                     ),
                     dtype=str(dataset.dtype),
                     num_windows=dataset.shape[0],
                 )
 
-                logger.info(
-                    f"{signal_name}: "
-                    f"{dataset.shape} dataset created."
-                )
+                logger.info(f"{signal_name}: " f"{dataset.shape} dataset created.")
 
-            logger.info(
-                "Datasets built successfully."
-            )
+            logger.info("Datasets built successfully.")
 
             return datasets, metadata
 

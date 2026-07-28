@@ -87,7 +87,6 @@ class ResidualBlock(nn.Module):
 
             self.residual = nn.Identity()
 
-
     def forward(
         self,
         x: torch.Tensor,
@@ -142,10 +141,7 @@ class DilatedResidualEncoder(nn.Module):
 
             in_channels = hidden_dim
 
-        self.network = nn.Sequential(
-            *layers
-        )
-
+        self.network = nn.Sequential(*layers)
 
     def forward(
         self,
@@ -174,7 +170,6 @@ class TS2VecEncoder(nn.Module):
             hidden_dim=hidden_dim,
             depth=depth,
         )
-
 
     def forward(
         self,

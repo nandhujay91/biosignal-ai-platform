@@ -44,15 +44,9 @@ class WindowGenerator:
                     config["overlap"],
                 )
 
-                window_size = (
-                    signal.sampling_rate
-                    * window_duration
-                )
+                window_size = signal.sampling_rate * window_duration
 
-                step_size = int(
-                    window_size
-                    * (1 - overlap)
-                )
+                step_size = int(window_size * (1 - overlap))
 
                 signal_windows = SlidingWindow.generate(
                     signal=signal,
@@ -69,9 +63,7 @@ class WindowGenerator:
                     f"overlap={overlap})."
                 )
 
-            logger.info(
-                "Window generation completed successfully."
-            )
+            logger.info("Window generation completed successfully.")
 
             return windows
 

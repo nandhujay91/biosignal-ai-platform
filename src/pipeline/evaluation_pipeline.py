@@ -26,23 +26,15 @@ def stratified_split(
 
     for cls in np.unique(labels):
 
-        indices = np.where(
-            labels == cls
-        )[0]
+        indices = np.where(labels == cls)[0]
 
         rng.shuffle(indices)
 
-        split = int(
-            len(indices) * train_ratio
-        )
+        split = int(len(indices) * train_ratio)
 
-        train_indices.extend(
-            indices[:split].tolist()
-        )
+        train_indices.extend(indices[:split].tolist())
 
-        val_indices.extend(
-            indices[split:].tolist()
-        )
+        val_indices.extend(indices[split:].tolist())
 
     rng.shuffle(train_indices)
     rng.shuffle(val_indices)
@@ -57,9 +49,7 @@ class EvaluationPipeline:
 
     def __init__(self) -> None:
 
-        self.report_path = Path(
-            "artifacts/reports/evaluation_metrics.json"
-        )
+        self.report_path = Path("artifacts/reports/evaluation_metrics.json")
 
         self.report_path.parent.mkdir(
             parents=True,
@@ -68,9 +58,7 @@ class EvaluationPipeline:
 
     def run(self) -> dict:
 
-        logger.info(
-            "Starting evaluation pipeline."
-        )
+        logger.info("Starting evaluation pipeline.")
 
         dataset = FusionDataset(
             embeddings_path="artifacts/embeddings/embeddings.npy",
@@ -78,13 +66,9 @@ class EvaluationPipeline:
             labels_path="artifacts/labels/labels.npy",
         )
 
-        labels = np.load(
-            "artifacts/labels/labels.npy"
-        )
+        labels = np.load("artifacts/labels/labels.npy")
 
-        _, validation_indices = stratified_split(
-            labels
-        )
+        _, validation_indices = stratified_split(labels)
 
         validation_dataset = Subset(
             dataset,
@@ -107,9 +91,7 @@ class EvaluationPipeline:
             map_location="cpu",
         )
 
-        model.load_state_dict(
-            checkpoint["model_state_dict"]
-        )
+        model.load_state_dict(checkpoint["model_state_dict"])
 
         model.eval()
 
@@ -127,21 +109,13 @@ class EvaluationPipeline:
                     dim=1,
                 )
 
-                predictions.extend(
-                    pred.tolist()
-                )
+                predictions.extend(pred.tolist())
 
-                true_labels.extend(
-                    y.tolist()
-                )
+                true_labels.extend(y.tolist())
 
-        predictions_tensor = torch.tensor(
-            predictions
-        )
+        predictions_tensor = torch.tensor(predictions)
 
-        true_labels_tensor = torch.tensor(
-            true_labels
-        )
+        true_labels_tensor = torch.tensor(true_labels)
 
         metrics = MetricsCalculator.calculate(
             predictions_tensor,
@@ -169,9 +143,7 @@ class EvaluationPipeline:
                 indent=4,
             )
 
-        logger.info(
-            f"Evaluation report saved: {self.report_path}"
-        )
+        logger.info(f"Evaluation report saved: {self.report_path}")
 
         print(
             json.dumps(

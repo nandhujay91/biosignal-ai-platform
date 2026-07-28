@@ -39,14 +39,10 @@ class BinaryReader:
 
             validate_directory_exists(folder_path)
 
-            bin_files = sorted(
-                folder_path.glob("*.bin")
-            )
+            bin_files = sorted(folder_path.glob("*.bin"))
 
             if not bin_files:
-                raise FileNotFoundError(
-                    f"No .bin files found in {folder_path}"
-                )
+                raise FileNotFoundError(f"No .bin files found in {folder_path}")
 
             data: dict[str, np.ndarray] = {}
 
@@ -62,9 +58,7 @@ class BinaryReader:
                 )
 
                 if signal_type is None:
-                    logger.warning(
-                        f"Unknown signal type. Skipping {file.name}"
-                    )
+                    logger.warning(f"Unknown signal type. Skipping {file.name}")
                     continue
 
                 dtype = cast(
@@ -74,9 +68,7 @@ class BinaryReader:
 
                 np_dtype = np.dtype(dtype)
 
-                logger.info(
-                    f"Reading {file.name} as {np_dtype.name}"
-                )
+                logger.info(f"Reading {file.name} as {np_dtype.name}")
 
                 signal = np.fromfile(
                     file,
@@ -84,16 +76,12 @@ class BinaryReader:
                 )
 
                 if signal.size == 0:
-                    logger.warning(
-                        f"{file.name} is empty."
-                    )
+                    logger.warning(f"{file.name} is empty.")
                     continue
 
                 data[file.stem] = signal
 
-            logger.info(
-                f"Successfully loaded {len(data)} binary files."
-            )
+            logger.info(f"Successfully loaded {len(data)} binary files.")
 
             return data
 

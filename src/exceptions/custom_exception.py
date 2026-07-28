@@ -23,7 +23,6 @@ class CustomException(Exception):
             error_details,
         )
 
-
     @staticmethod
     def _build_error_message(
         error: Exception,
@@ -55,7 +54,6 @@ class CustomException(Exception):
             f"Message   : {error}\n"
             "========================================"
         )
-
 
     def __str__(self) -> str:
         return self.error_message

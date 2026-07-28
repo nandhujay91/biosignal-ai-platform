@@ -35,9 +35,7 @@ class SignalParser:
                 )
 
                 if signal_type is None:
-                    logger.warning(
-                        f"Unknown signal type: {file_name}"
-                    )
+                    logger.warning(f"Unknown signal type: {file_name}")
                     continue
 
                 signal_config = SIGNAL_INFO[signal_type]
@@ -61,8 +59,7 @@ class SignalParser:
 
                 if raw_signal.size % channels != 0:
                     raise ValueError(
-                        f"{file_name} cannot be reshaped into "
-                        f"{channels} channels."
+                        f"{file_name} cannot be reshaped into " f"{channels} channels."
                     )
 
                 parsed_data = raw_signal.reshape(
@@ -81,13 +78,10 @@ class SignalParser:
                 parsed_signals[signal_type] = signal
 
                 logger.info(
-                    f"{signal_type}: "
-                    f"{raw_signal.shape} -> {parsed_data.shape}"
+                    f"{signal_type}: " f"{raw_signal.shape} -> {parsed_data.shape}"
                 )
 
-            logger.info(
-                f"Successfully parsed {len(parsed_signals)} signals."
-            )
+            logger.info(f"Successfully parsed {len(parsed_signals)} signals.")
 
             return parsed_signals
 

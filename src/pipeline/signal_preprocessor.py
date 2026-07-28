@@ -36,32 +36,22 @@ class SignalPreprocessor:
 
         try:
 
-            logger.info(
-                "Starting preprocessing pipeline..."
-            )
+            logger.info("Starting preprocessing pipeline...")
 
             # Read binary files
-            raw_signals = BinaryReader.read_all_bin_files(
-                data_directory
-            )
+            raw_signals = BinaryReader.read_all_bin_files(data_directory)
 
             # Parse signals
-            parsed_signals = SignalParser.parse_signals(
-                raw_signals
-            )
+            parsed_signals = SignalParser.parse_signals(raw_signals)
 
             # Validate signals
-            validated_signals = SignalValidator.validate_signals(
-                parsed_signals
-            )
+            validated_signals = SignalValidator.validate_signals(parsed_signals)
 
             processed_signals: dict[str, Signal] = {}
 
             for signal_name, signal in validated_signals.items():
 
-                logger.info(
-                    f"Processing {signal_name}..."
-                )
+                logger.info(f"Processing {signal_name}...")
 
                 config: dict[str, Any] = cast(
                     dict[str, Any],
@@ -81,15 +71,9 @@ class SignalPreprocessor:
 
                     signal = SignalFilters.butter_bandpass_filter(
                         signal=signal,
-                        lowcut=float(
-                            filter_config["lowcut"]
-                        ),
-                        highcut=float(
-                            filter_config["highcut"]
-                        ),
-                        order=int(
-                            filter_config["order"]
-                        ),
+                        lowcut=float(filter_config["lowcut"]),
+                        highcut=float(filter_config["highcut"]),
+                        order=int(filter_config["order"]),
                     )
 
                 # --------------------------------------------------
@@ -103,21 +87,15 @@ class SignalPreprocessor:
 
                 if normalization == "z_score":
 
-                    signal = SignalNormalization.z_score_normalize(
-                        signal
-                    )
+                    signal = SignalNormalization.z_score_normalize(signal)
 
                 elif normalization == "min_max":
 
-                    signal = SignalNormalization.min_max_normalize(
-                        signal
-                    )
+                    signal = SignalNormalization.min_max_normalize(signal)
 
                 elif normalization == "robust":
 
-                    signal = SignalNormalization.robust_normalize(
-                        signal
-                    )
+                    signal = SignalNormalization.robust_normalize(signal)
 
                 else:
 
@@ -131,28 +109,19 @@ class SignalPreprocessor:
                 # Quality Assessment
                 # --------------------------------------------------
 
-                report = QualityManager.assess(
-                    signal
-                )
+                report = QualityManager.assess(signal)
 
-                logger.info(
-                    f"{signal_name} Quality Score: "
-                    f"{report.score:.1f}"
-                )
+                logger.info(f"{signal_name} Quality Score: " f"{report.score:.1f}")
 
                 if report.passed:
 
                     processed_signals[signal_name] = signal
 
-                    logger.info(
-                        f"{signal_name} accepted."
-                    )
+                    logger.info(f"{signal_name} accepted.")
 
                 else:
 
-                    logger.warning(
-                        f"{signal_name} rejected."
-                    )
+                    logger.warning(f"{signal_name} rejected.")
 
             logger.info(
                 f"Pipeline completed successfully. "

@@ -22,9 +22,7 @@ class SignalNormalization:
 
             normalized_data = scaler.fit_transform(signal.data)
 
-            logger.info(
-                f"{signal.name}: Z-Score normalization applied."
-            )
+            logger.info(f"{signal.name}: Z-Score normalization applied.")
 
             return Signal(
                 name=signal.name,
@@ -46,9 +44,7 @@ class SignalNormalization:
 
             normalized_data = scaler.fit_transform(signal.data)
 
-            logger.info(
-                f"{signal.name}: Min-Max normalization applied."
-            )
+            logger.info(f"{signal.name}: Min-Max normalization applied.")
 
             return Signal(
                 name=signal.name,
@@ -70,9 +66,7 @@ class SignalNormalization:
 
             normalized_data = scaler.fit_transform(signal.data)
 
-            logger.info(
-                f"{signal.name}: Robust normalization applied."
-            )
+            logger.info(f"{signal.name}: Robust normalization applied.")
 
             return Signal(
                 name=signal.name,

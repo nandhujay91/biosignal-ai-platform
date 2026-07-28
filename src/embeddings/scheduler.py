@@ -29,7 +29,6 @@ class LearningRateScheduler:
 
         self.scheduler.step()
 
-
     def get_lr(self) -> float:
         """
         Return current learning rate as float.

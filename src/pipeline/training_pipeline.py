@@ -26,17 +26,11 @@ def stratified_split(
 
         rng.shuffle(class_indices)
 
-        split = int(
-            len(class_indices) * train_ratio
-        )
+        split = int(len(class_indices) * train_ratio)
 
-        train_indices.extend(
-            class_indices[:split].tolist()
-        )
+        train_indices.extend(class_indices[:split].tolist())
 
-        validation_indices.extend(
-            class_indices[split:].tolist()
-        )
+        validation_indices.extend(class_indices[split:].tolist())
 
     rng.shuffle(train_indices)
     rng.shuffle(validation_indices)
@@ -51,9 +45,7 @@ class TrainingPipeline:
 
     def run(self) -> None:
 
-        logger.info(
-            "Starting classifier training pipeline."
-        )
+        logger.info("Starting classifier training pipeline.")
 
         dataset = FusionDataset(
             embeddings_path="artifacts/embeddings/embeddings.npy",
@@ -61,13 +53,9 @@ class TrainingPipeline:
             labels_path="artifacts/labels/labels.npy",
         )
 
-        labels = np.load(
-            "artifacts/labels/labels.npy"
-        )
+        labels = np.load("artifacts/labels/labels.npy")
 
-        train_indices, validation_indices = stratified_split(
-            labels
-        )
+        train_indices, validation_indices = stratified_split(labels)
 
         train_dataset = Subset(
             dataset,
@@ -128,9 +116,7 @@ class TrainingPipeline:
 
         trainer.train()
 
-        logger.info(
-            "Classifier training completed successfully."
-        )
+        logger.info("Classifier training completed successfully.")
 
 
 if __name__ == "__main__":
