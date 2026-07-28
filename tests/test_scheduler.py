@@ -30,8 +30,8 @@ def main():
 
         optimizer.zero_grad()
         loss.backward()
-        optimizer.step()      # Update weights first
-        scheduler.step()      # Then update learning rate
+        optimizer.step()  # Update weights first
+        scheduler.step()  # Then update learning rate
 
         print(
             f"Epoch {epoch + 1:2d} | "

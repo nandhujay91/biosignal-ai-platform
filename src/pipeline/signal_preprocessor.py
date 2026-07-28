@@ -1,4 +1,5 @@
 import sys
+from typing import Any, cast
 
 from src.config.signal_config import SIGNAL_INFO
 from src.data_loader import BinaryReader
@@ -40,24 +41,18 @@ class SignalPreprocessor:
             )
 
             # Read binary files
-            raw_signals = (
-                BinaryReader.read_all_bin_files(
-                    data_directory
-                )
+            raw_signals = BinaryReader.read_all_bin_files(
+                data_directory
             )
 
             # Parse signals
-            parsed_signals = (
-                SignalParser.parse_signals(
-                    raw_signals
-                )
+            parsed_signals = SignalParser.parse_signals(
+                raw_signals
             )
 
             # Validate signals
-            validated_signals = (
-                SignalValidator.validate_signals(
-                    parsed_signals
-                )
+            validated_signals = SignalValidator.validate_signals(
+                parsed_signals
             )
 
             processed_signals: dict[str, Signal] = {}
@@ -68,53 +63,60 @@ class SignalPreprocessor:
                     f"Processing {signal_name}..."
                 )
 
-                config = SIGNAL_INFO[signal_name]
+                config: dict[str, Any] = cast(
+                    dict[str, Any],
+                    SIGNAL_INFO[signal_name],
+                )
 
                 # --------------------------------------------------
                 # Filtering
                 # --------------------------------------------------
 
-                filter_config = config["filter"]
+                filter_config: dict[str, Any] = cast(
+                    dict[str, Any],
+                    config["filter"],
+                )
 
                 if filter_config["enabled"]:
 
-                    signal = (
-                        SignalFilters.butter_bandpass_filter(
-                            signal=signal,
-                            lowcut=filter_config["lowcut"],
-                            highcut=filter_config["highcut"],
-                            order=filter_config["order"],
-                        )
+                    signal = SignalFilters.butter_bandpass_filter(
+                        signal=signal,
+                        lowcut=float(
+                            filter_config["lowcut"]
+                        ),
+                        highcut=float(
+                            filter_config["highcut"]
+                        ),
+                        order=int(
+                            filter_config["order"]
+                        ),
                     )
 
                 # --------------------------------------------------
                 # Normalization
                 # --------------------------------------------------
 
-                normalization = config["normalization"]
+                normalization = cast(
+                    str,
+                    config["normalization"],
+                )
 
                 if normalization == "z_score":
 
-                    signal = (
-                        SignalNormalization.z_score_normalize(
-                            signal
-                        )
+                    signal = SignalNormalization.z_score_normalize(
+                        signal
                     )
 
                 elif normalization == "min_max":
 
-                    signal = (
-                        SignalNormalization.min_max_normalize(
-                            signal
-                        )
+                    signal = SignalNormalization.min_max_normalize(
+                        signal
                     )
 
                 elif normalization == "robust":
 
-                    signal = (
-                        SignalNormalization.robust_normalize(
-                            signal
-                        )
+                    signal = SignalNormalization.robust_normalize(
+                        signal
                     )
 
                 else:
@@ -129,7 +131,9 @@ class SignalPreprocessor:
                 # Quality Assessment
                 # --------------------------------------------------
 
-                report = QualityManager.assess(signal)
+                report = QualityManager.assess(
+                    signal
+                )
 
                 logger.info(
                     f"{signal_name} Quality Score: "

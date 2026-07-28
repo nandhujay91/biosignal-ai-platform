@@ -17,7 +17,6 @@ class ClassifierInference:
     - Predict class from embeddings
     """
 
-
     def __init__(
         self,
         model: EmbeddingClassifier,
@@ -27,14 +26,9 @@ class ClassifierInference:
 
         self.device = torch.device(device)
 
-        self.model = model.to(
-            self.device
-        )
+        self.model = model.to(self.device)
 
-        self.checkpoint_path = Path(
-            checkpoint_path
-        )
-
+        self.checkpoint_path = Path(checkpoint_path)
 
     def load_model(self) -> None:
         """
@@ -42,25 +36,18 @@ class ClassifierInference:
         """
 
         if not self.checkpoint_path.exists():
-            raise FileNotFoundError(
-                f"Checkpoint not found: {self.checkpoint_path}"
-            )
+            raise FileNotFoundError(f"Checkpoint not found: {self.checkpoint_path}")
 
         state_dict = torch.load(
             self.checkpoint_path,
             map_location=self.device,
         )
 
-        self.model.load_state_dict(
-            state_dict
-        )
+        self.model.load_state_dict(state_dict)
 
         self.model.eval()
 
-        print(
-            "Classifier model loaded successfully."
-        )
-
+        print("Classifier model loaded successfully.")
 
     @torch.no_grad()
     def predict(
@@ -77,13 +64,9 @@ class ClassifierInference:
             (batch,)
         """
 
-        embeddings = embeddings.to(
-            self.device
-        )
+        embeddings = embeddings.to(self.device)
 
-        logits = self.model(
-            embeddings
-        )
+        logits = self.model(embeddings)
 
         predictions = torch.argmax(
             logits,

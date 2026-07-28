@@ -7,31 +7,21 @@ from src.embeddings.generate_embeddings import EmbeddingGenerator
 
 def main():
 
-    windows_path = (
-        "artifacts/datasets/v1/Ephy/windows.npy"
-    )
-
+    windows_path = "artifacts/datasets/v1/Ephy/windows.npy"
 
     generator = EmbeddingGenerator(
-        checkpoint_path=(
-            "artifacts/checkpoints/ts2vec_best.pt"
-        ),
-        output_path=(
-            "artifacts/embeddings/embeddings.npy"
-        ),
+        checkpoint_path=("artifacts/checkpoints/ts2vec_best.pt"),
+        output_path=("artifacts/embeddings/embeddings.npy"),
     )
-
 
     embeddings = generator.generate(
         windows_path=windows_path,
     )
 
-
     print(
         "Generated Embeddings Shape:",
         embeddings.shape,
     )
-
 
     # Validation checks
 
@@ -41,26 +31,18 @@ def main():
 
     assert embeddings.shape[1] == 128
 
-
     # Verify saved file
 
-    saved = np.load(
-        "artifacts/embeddings/embeddings.npy"
-    )
-
+    saved = np.load("artifacts/embeddings/embeddings.npy")
 
     print(
         "Saved Embeddings Shape:",
         saved.shape,
     )
 
-
     assert saved.shape == embeddings.shape
 
-
-    print(
-        "Embedding generation test passed successfully."
-    )
+    print("Embedding generation test passed successfully.")
 
 
 if __name__ == "__main__":

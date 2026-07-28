@@ -3,8 +3,8 @@ from __future__ import annotations
 import numpy as np
 
 from src.validation.input_validator import (
-    InputValidator,
     InputValidationError,
+    InputValidator,
 )
 
 
@@ -17,15 +17,12 @@ def main():
         dtype=np.float32,
     )
 
-    result = InputValidator.validate(
-        valid_input
-    )
+    result = InputValidator.validate(valid_input)
 
     print(
         "Valid input:",
         result,
     )
-
 
     print("\nTesting wrong feature size")
 
@@ -36,9 +33,7 @@ def main():
             dtype=np.float32,
         )
 
-        InputValidator.validate(
-            wrong_size
-        )
+        InputValidator.validate(wrong_size)
 
     except InputValidationError as e:
 
@@ -46,7 +41,6 @@ def main():
             "Caught:",
             e,
         )
-
 
     print("\nTesting NaN input")
 
@@ -59,11 +53,7 @@ def main():
 
         nan_input[10] = np.nan
 
-
-        InputValidator.validate(
-            nan_input
-        )
-
+        InputValidator.validate(nan_input)
 
     except InputValidationError as e:
 
@@ -72,10 +62,7 @@ def main():
             e,
         )
 
-
-    print(
-        "\nInput validation test passed."
-    )
+    print("\nInput validation test passed.")
 
 
 if __name__ == "__main__":

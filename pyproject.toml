@@ -42,7 +42,9 @@ dev = [
 ]
 
 
-# Pytest configuration
+# ==============================
+# Pytest
+# ==============================
 
 [tool.pytest.ini_options]
 
@@ -58,12 +60,129 @@ python_files = [
     "test_*.py"
 ]
 
-
-# External library warning filters
-
 filterwarnings = [
     "ignore::DeprecationWarning:litestar.*",
     "ignore::PendingDeprecationWarning:litestar.*",
     "ignore::DeprecationWarning:shap.*",
     "ignore::PendingDeprecationWarning:shap.*",
+]
+
+
+# ==============================
+# Ruff
+# ==============================
+
+[tool.ruff]
+
+line-length = 88
+
+target-version = "py311"
+
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
+
+
+[tool.ruff.lint]
+
+select = [
+    "E",
+    "F",
+    "I",
+    "B",
+    "UP",
+    "RUF",
+    "TRY",
+    "DTZ",
+]
+
+
+ignore = [
+    # Package exports
+    "F401",
+    "F403",
+
+    # Existing project exception handling
+    "BLE001",
+    "B904",
+
+    # FastAPI dependency injection
+    "B008",
+
+    # Iterator rules
+    "B905",
+
+    # Tests
+    "TRY002",
+    "TRY003",
+
+    # Project try/except patterns
+    "TRY300",
+    "TRY301",
+
+    # Explicit open mode
+    "UP015",
+
+    # Datetime
+    "DTZ005",
+
+    # Class constants
+    "RUF012",
+]
+
+
+[tool.ruff.lint.per-file-ignores]
+
+"tests/**/*.py" = [
+    "F401",
+    "TRY002",
+    "TRY003",
+]
+
+
+[tool.ruff.lint.isort]
+
+known-first-party = [
+    "src"
+]
+
+
+# ==============================
+# Black
+# ==============================
+
+[tool.black]
+
+line-length = 88
+
+target-version = [
+    "py311"
+]
+
+
+# ==============================
+# MyPy
+# ==============================
+
+[tool.mypy]
+
+python_version = "3.11"
+
+ignore_missing_imports = true
+
+allow_redefinition = true
+
+exclude = [
+    "tests/",
+    ".venv/",
+    "build/",
+    "dist/",
+]
+
+disable_error_code = [
+    "import-untyped"
 ]

@@ -1,7 +1,6 @@
 from src.data_loader import BinaryReader
 from src.parser import SignalParser
 from src.preprocessing import (
-    SignalFilters,
     SignalNormalization,
 )
 from src.quality import IMUQuality

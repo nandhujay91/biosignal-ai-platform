@@ -6,17 +6,11 @@ from src.validation import SignalValidator
 
 def test_bandpass_filter():
 
-    raw_signals = BinaryReader.read_all_bin_files(
-        "data/test"
-    )
+    raw_signals = BinaryReader.read_all_bin_files("data/test")
 
-    parsed_signals = SignalParser.parse_signals(
-        raw_signals
-    )
+    parsed_signals = SignalParser.parse_signals(raw_signals)
 
-    validated_signals = SignalValidator.validate_signals(
-        parsed_signals
-    )
+    validated_signals = SignalValidator.validate_signals(parsed_signals)
 
     ephy = validated_signals["Ephy"]
 

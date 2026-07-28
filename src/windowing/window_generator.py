@@ -1,4 +1,5 @@
 import sys
+from typing import Any, cast
 
 import numpy as np
 
@@ -24,14 +25,24 @@ class WindowGenerator:
 
         try:
 
-            windows = {}
+            windows: dict[str, np.ndarray] = {}
 
             for signal_name, signal in signals.items():
 
-                config = SIGNAL_INFO[signal_name]
+                config: dict[str, Any] = cast(
+                    dict[str, Any],
+                    SIGNAL_INFO[signal_name],
+                )
 
-                window_duration = config["window_duration"]
-                overlap = config["overlap"]
+                window_duration = cast(
+                    int,
+                    config["window_duration"],
+                )
+
+                overlap = cast(
+                    float,
+                    config["overlap"],
+                )
 
                 window_size = (
                     signal.sampling_rate

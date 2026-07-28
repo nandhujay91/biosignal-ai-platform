@@ -26,25 +26,16 @@ class EmbeddingDataset(Dataset):
         labels_path: str | Path,
     ) -> None:
 
-        self.embeddings = np.load(
-            embeddings_path
-        )
+        self.embeddings = np.load(embeddings_path)
 
-        self.labels = np.load(
-            labels_path
-        )
-
+        self.labels = np.load(labels_path)
 
         if len(self.embeddings) != len(self.labels):
-            raise ValueError(
-                "Embeddings and labels size mismatch"
-            )
-
+            raise ValueError("Embeddings and labels size mismatch")
 
     def __len__(self) -> int:
 
         return len(self.labels)
-
 
     def __getitem__(
         self,

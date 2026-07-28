@@ -32,9 +32,7 @@ class SlidingWindow:
 
                 end = start + window_size
 
-                windows.append(
-                    data[start:end]
-                )
+                windows.append(data[start:end])
 
             return np.asarray(
                 windows,

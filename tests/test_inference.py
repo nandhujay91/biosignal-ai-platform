@@ -3,8 +3,7 @@ from __future__ import annotations
 import torch
 from torch.utils.data import DataLoader, TensorDataset
 
-from src.embeddings import TS2Vec
-from src.embeddings import TS2VecInference
+from src.embeddings import TS2Vec, TS2VecInference
 
 
 def main() -> None:

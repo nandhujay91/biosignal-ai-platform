@@ -29,7 +29,7 @@ class SignalNormalization:
             return Signal(
                 name=signal.name,
                 data=normalized_data.astype(np.float32),
-                dtype=np.float32,
+                dtype=np.dtype(np.float32),
                 channels=signal.channels,
                 sampling_rate=signal.sampling_rate,
             )
@@ -53,7 +53,7 @@ class SignalNormalization:
             return Signal(
                 name=signal.name,
                 data=normalized_data.astype(np.float32),
-                dtype=np.float32,
+                dtype=np.dtype(np.float32),
                 channels=signal.channels,
                 sampling_rate=signal.sampling_rate,
             )
@@ -77,7 +77,7 @@ class SignalNormalization:
             return Signal(
                 name=signal.name,
                 data=normalized_data.astype(np.float32),
-                dtype=np.float32,
+                dtype=np.dtype(np.float32),
                 channels=signal.channels,
                 sampling_rate=signal.sampling_rate,
             )

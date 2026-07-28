@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from src.exceptions import CustomException
-
 
 def validate_file_exists(file_path: str | Path) -> bool:
     """
@@ -34,8 +32,6 @@ def validate_extension(file_path: str | Path, extension: str) -> bool:
     path = Path(file_path)
 
     if path.suffix.lower() != extension.lower():
-        raise ValueError(
-            f"Expected '{extension}' file, but received '{path.suffix}'."
-        )
+        raise ValueError(f"Expected '{extension}' file, but received '{path.suffix}'.")
 
     return True

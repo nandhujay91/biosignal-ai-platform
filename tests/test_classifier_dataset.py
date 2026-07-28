@@ -12,12 +12,9 @@ def main():
         labels_path="artifacts/labels/labels.npy",
     )
 
-
     print("Dataset size:", len(dataset))
 
-
     embedding, label = dataset[0]
-
 
     print(
         "Embedding shape:",
@@ -29,16 +26,13 @@ def main():
         label,
     )
 
-
     loader = DataLoader(
         dataset,
         batch_size=32,
         shuffle=True,
     )
 
-
     x, y = next(iter(loader))
-
 
     print(
         "Batch embeddings:",
@@ -50,14 +44,10 @@ def main():
         y.shape,
     )
 
-
     assert len(dataset) == 1132
     assert x.shape[1] == 128
 
-
-    print(
-        "Classifier dataset test passed successfully."
-    )
+    print("Classifier dataset test passed successfully.")
 
 
 if __name__ == "__main__":

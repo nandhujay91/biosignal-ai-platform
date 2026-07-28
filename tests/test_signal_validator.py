@@ -5,17 +5,11 @@ from src.validation import SignalValidator
 
 def test_signal_validator():
 
-    raw_signals = BinaryReader.read_all_bin_files(
-        "data/test"
-    )
+    raw_signals = BinaryReader.read_all_bin_files("data/test")
 
-    parsed_signals = SignalParser.parse_signals(
-        raw_signals
-    )
+    parsed_signals = SignalParser.parse_signals(raw_signals)
 
-    validated_signals = SignalValidator.validate_signals(
-        parsed_signals
-    )
+    validated_signals = SignalValidator.validate_signals(parsed_signals)
 
     for name, signal in validated_signals.items():
 

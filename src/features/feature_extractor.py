@@ -28,7 +28,6 @@ class FeatureExtractor:
 
         self.spo2_extractor = SpO2Extractor()
 
-
     def extract(
         self,
         ecg_signal: Signal,
@@ -36,28 +35,13 @@ class FeatureExtractor:
     ) -> dict[str, float]:
 
         # Heart rate
-        heart_rate = (
-            self.heart_rate_extractor.calculate_bpm(
-                ecg_signal.data
-            )
-        )
-
+        heart_rate = self.heart_rate_extractor.calculate_bpm(ecg_signal.data)
 
         # SpO2
-        spo2 = (
-            self.spo2_extractor.calculate_spo2(
-                oxym_signal.data
-            )
-        )
-
+        spo2 = self.spo2_extractor.calculate_spo2(oxym_signal.data)
 
         # ECG quality
-        quality_report = (
-            QualityManager.assess(
-                ecg_signal
-            )
-        )
-
+        quality_report = QualityManager.assess(ecg_signal)
 
         return {
             "heart_rate": heart_rate,

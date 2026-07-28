@@ -23,4 +23,3 @@ class BaseQuality(ABC):
         QualityReport
             Quality assessment result.
         """
-        pass

@@ -70,13 +70,9 @@ class DatasetSaver:
 
                 saved_paths[signal_name] = signal_dir
 
-                logger.info(
-                    f"{signal_name} saved successfully."
-                )
+                logger.info(f"{signal_name} saved successfully.")
 
-            logger.info(
-                "All datasets saved successfully."
-            )
+            logger.info("All datasets saved successfully.")
 
             return saved_paths
 

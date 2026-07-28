@@ -9,34 +9,26 @@ def main():
         labels_path="artifacts/labels/labels.npy",
     )
 
-
     print(
         "Dataset Size:",
         len(dataset),
     )
 
-
     x, y = dataset[0]
-
 
     print(
         "Input Shape:",
         x.shape,
     )
 
-
     print(
         "Label:",
         y,
     )
 
-
     assert x.shape[0] == 131
 
-
-    print(
-        "Fusion dataset test passed."
-    )
+    print("Fusion dataset test passed.")
 
 
 if __name__ == "__main__":

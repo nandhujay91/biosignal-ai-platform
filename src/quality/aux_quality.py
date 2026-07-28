@@ -36,9 +36,7 @@ class AUXQuality(BaseQuality):
 
             self._finalize_report(report)
 
-            logger.info(
-                f"{signal.name}: AUX quality assessment completed."
-            )
+            logger.info(f"{signal.name}: AUX quality assessment completed.")
 
             return report
 

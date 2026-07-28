@@ -1,4 +1,5 @@
 import sys
+from typing import cast
 
 import numpy as np
 
@@ -20,7 +21,7 @@ class SignalParser:
 
         try:
 
-            parsed_signals = {}
+            parsed_signals: dict[str, Signal] = {}
 
             for file_name, raw_signal in raw_signals.items():
 
@@ -39,9 +40,24 @@ class SignalParser:
                     )
                     continue
 
-                channels = SIGNAL_INFO[signal_type]["channels"]
-                dtype = SIGNAL_INFO[signal_type]["dtype"]
-                sampling_rate = SIGNAL_INFO[signal_type]["sampling_rate"]
+                signal_config = SIGNAL_INFO[signal_type]
+
+                channels = cast(
+                    int,
+                    signal_config["channels"],
+                )
+
+                sampling_rate = cast(
+                    int,
+                    signal_config["sampling_rate"],
+                )
+
+                dtype = cast(
+                    str,
+                    signal_config["dtype"],
+                )
+
+                signal_dtype = np.dtype(dtype)
 
                 if raw_signal.size % channels != 0:
                     raise ValueError(
@@ -49,12 +65,15 @@ class SignalParser:
                         f"{channels} channels."
                     )
 
-                parsed_data = raw_signal.reshape(-1, channels)
+                parsed_data = raw_signal.reshape(
+                    -1,
+                    channels,
+                )
 
                 signal = Signal(
                     name=signal_type,
                     data=parsed_data,
-                    dtype=dtype,
+                    dtype=signal_dtype,
                     channels=channels,
                     sampling_rate=sampling_rate,
                 )

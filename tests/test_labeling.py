@@ -16,7 +16,6 @@ def main() -> None:
 
     assert normal == BaselineLabeler.NORMAL
 
-
     # Alert case
     alert = BaselineLabeler.assign_label(
         heart_rate=110,
@@ -28,7 +27,6 @@ def main() -> None:
 
     assert alert == BaselineLabeler.ALERT
 
-
     # Critical case
     critical = BaselineLabeler.assign_label(
         heart_rate=140,
@@ -39,7 +37,6 @@ def main() -> None:
     print("Critical Label:", critical)
 
     assert critical == BaselineLabeler.CRITICAL
-
 
     print("\nLabeling test passed successfully.")
 

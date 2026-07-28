@@ -4,13 +4,9 @@ from src.parser import SignalParser
 
 def test_signal_parser():
 
-    raw_signals = BinaryReader.read_all_bin_files(
-        "data/test"
-    )
+    raw_signals = BinaryReader.read_all_bin_files("data/test")
 
-    parsed_signals = SignalParser.parse_signals(
-        raw_signals
-    )
+    parsed_signals = SignalParser.parse_signals(raw_signals)
 
     for name, signal in parsed_signals.items():
 

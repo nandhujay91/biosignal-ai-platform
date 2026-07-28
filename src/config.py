@@ -10,14 +10,12 @@ class ConfigLoader:
     Load application configuration.
     """
 
-
     def __init__(
         self,
         path: str = "configs/inference.yaml",
     ):
 
         self.path = Path(path)
-
 
     def load(self):
 

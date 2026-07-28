@@ -9,11 +9,7 @@ def main():
 
     print("Testing model artifacts...")
 
-
-    model_dir = Path(
-        "artifacts/model/v1"
-    )
-
+    model_dir = Path("artifacts/model/v1")
 
     required_files = [
         "classifier.pt",
@@ -23,27 +19,17 @@ def main():
         "version.txt",
     ]
 
-
     for file_name in required_files:
 
         file_path = model_dir / file_name
 
-        assert file_path.exists(), (
-            f"Missing artifact: {file_name}"
-        )
+        assert file_path.exists(), f"Missing artifact: {file_name}"
 
-        print(
-            f"Found: {file_name}"
-        )
-
+        print(f"Found: {file_name}")
 
     print("\nLoading predictor...")
 
-
-    predictor = BiosignalPredictor(
-        model_dir=str(model_dir)
-    )
-
+    predictor = BiosignalPredictor(model_dir=str(model_dir))
 
     assert predictor.model is not None
 
@@ -51,21 +37,14 @@ def main():
 
     assert predictor.version is not None
 
-
-    print(
-        "Model loaded successfully."
-    )
-
+    print("Model loaded successfully.")
 
     print(
         "Model Version:",
         predictor.version,
     )
 
-
-    print(
-        "\nModel loading test passed."
-    )
+    print("\nModel loading test passed.")
 
 
 if __name__ == "__main__":

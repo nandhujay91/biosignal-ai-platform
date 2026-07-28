@@ -7,8 +7,6 @@ class InputValidationError(Exception):
     """
     Custom validation error.
     """
-    pass
-
 
 
 class InputValidator:
@@ -21,13 +19,11 @@ class InputValidator:
 
     EXPECTED_FEATURES = 131
 
-
     @classmethod
     def validate(
         cls,
         features,
     ) -> bool:
-
 
         # Convert input to numpy array
 
@@ -36,42 +32,30 @@ class InputValidator:
             dtype=np.float32,
         )
 
-
         # Check dimension
 
         if array.ndim != 1:
 
-            raise InputValidationError(
-                "Input must be a 1D feature vector."
-            )
-
+            raise InputValidationError("Input must be a 1D feature vector.")
 
         # Check feature count
 
         if len(array) != cls.EXPECTED_FEATURES:
 
             raise InputValidationError(
-                f"Expected {cls.EXPECTED_FEATURES} features, "
-                f"received {len(array)}."
+                f"Expected {cls.EXPECTED_FEATURES} features, " f"received {len(array)}."
             )
-
 
         # Check missing values
 
         if np.isnan(array).any():
 
-            raise InputValidationError(
-                "Input contains NaN values."
-            )
-
+            raise InputValidationError("Input contains NaN values.")
 
         # Check infinite values
 
         if np.isinf(array).any():
 
-            raise InputValidationError(
-                "Input contains infinite values."
-            )
-
+            raise InputValidationError("Input contains infinite values.")
 
         return True

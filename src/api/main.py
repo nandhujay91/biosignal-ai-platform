@@ -2,17 +2,14 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 from fastapi.responses import Response
-
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
 from src.api.routes import router
-
 
 app = FastAPI(
     title="Biosignal Embedding Model API",
     description=(
-        "TS2Vec embedding model + DNN classifier "
-        "for biosignal classification"
+        "TS2Vec embedding model + DNN classifier " "for biosignal classification"
     ),
     version="v1",
 )
@@ -20,9 +17,7 @@ app = FastAPI(
 
 # Register API routes
 
-app.include_router(
-    router
-)
+app.include_router(router)
 
 
 @app.get("/health")
@@ -32,7 +27,6 @@ def health_check():
         "status": "healthy",
         "service": "biosignal-classifier-api",
     }
-
 
 
 @app.get("/model-info")
@@ -53,8 +47,8 @@ def model_info():
     }
 
 
-
 # Prometheus metrics endpoint
+
 
 @app.get("/metrics")
 def metrics():

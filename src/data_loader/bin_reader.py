@@ -1,5 +1,6 @@
-from pathlib import Path
 import sys
+from pathlib import Path
+from typing import cast
 
 import numpy as np
 
@@ -23,7 +24,8 @@ class BinaryReader:
         Read all .bin files from a folder.
 
         Args:
-            folder_path: Folder containing .bin files.
+            folder_path:
+                Folder containing .bin files.
 
         Returns:
             Dictionary where:
@@ -32,18 +34,21 @@ class BinaryReader:
         """
 
         try:
+
             folder_path = Path(folder_path)
 
             validate_directory_exists(folder_path)
 
-            bin_files = sorted(folder_path.glob("*.bin"))
+            bin_files = sorted(
+                folder_path.glob("*.bin")
+            )
 
             if not bin_files:
                 raise FileNotFoundError(
                     f"No .bin files found in {folder_path}"
                 )
 
-            data = {}
+            data: dict[str, np.ndarray] = {}
 
             for file in bin_files:
 
@@ -62,15 +67,20 @@ class BinaryReader:
                     )
                     continue
 
-                dtype = SIGNAL_INFO[signal_type]["dtype"]
+                dtype = cast(
+                    str,
+                    SIGNAL_INFO[signal_type]["dtype"],
+                )
+
+                np_dtype = np.dtype(dtype)
 
                 logger.info(
-                    f"Reading {file.name} as {dtype.__name__}"
+                    f"Reading {file.name} as {np_dtype.name}"
                 )
 
                 signal = np.fromfile(
                     file,
-                    dtype=dtype,
+                    dtype=np_dtype,
                 )
 
                 if signal.size == 0:

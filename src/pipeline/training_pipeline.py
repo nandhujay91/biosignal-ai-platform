@@ -13,40 +13,35 @@ def stratified_split(
     labels: np.ndarray,
     train_ratio: float = 0.8,
     seed: int = 42,
-):
+) -> tuple[list[int], list[int]]:
 
     rng = np.random.default_rng(seed)
 
-    train_indices = []
-    val_indices = []
+    train_indices: list[int] = []
+    validation_indices: list[int] = []
 
     for cls in np.unique(labels):
 
-        class_indices = np.where(
-            labels == cls
-        )[0]
+        class_indices = np.where(labels == cls)[0]
 
-        rng.shuffle(
-            class_indices
-        )
+        rng.shuffle(class_indices)
 
         split = int(
             len(class_indices) * train_ratio
         )
 
         train_indices.extend(
-            class_indices[:split]
+            class_indices[:split].tolist()
         )
 
-        val_indices.extend(
-            class_indices[split:]
+        validation_indices.extend(
+            class_indices[split:].tolist()
         )
 
     rng.shuffle(train_indices)
-    rng.shuffle(val_indices)
+    rng.shuffle(validation_indices)
 
-    return train_indices, val_indices
-
+    return train_indices, validation_indices
 
 
 class TrainingPipeline:
@@ -54,48 +49,35 @@ class TrainingPipeline:
     Complete fusion classifier training pipeline.
     """
 
-
-    def run(self):
+    def run(self) -> None:
 
         logger.info(
             "Starting classifier training pipeline."
         )
 
-
         dataset = FusionDataset(
-
-            embeddings_path=
-            "artifacts/embeddings/embeddings.npy",
-
-            features_path=
-            "artifacts/datasets/v1/Ephy/features.npy",
-
-            labels_path=
-            "artifacts/labels/labels.npy",
+            embeddings_path="artifacts/embeddings/embeddings.npy",
+            features_path="artifacts/datasets/v1/Ephy/features.npy",
+            labels_path="artifacts/labels/labels.npy",
         )
-
 
         labels = np.load(
             "artifacts/labels/labels.npy"
         )
 
-
         train_indices, validation_indices = stratified_split(
             labels
         )
-
 
         train_dataset = Subset(
             dataset,
             train_indices,
         )
 
-
         validation_dataset = Subset(
             dataset,
             validation_indices,
         )
-
 
         print(
             "Total Dataset Size:",
@@ -112,13 +94,11 @@ class TrainingPipeline:
             len(validation_dataset),
         )
 
-
         train_loader = DataLoader(
             train_dataset,
             batch_size=32,
             shuffle=True,
         )
-
 
         validation_loader = DataLoader(
             validation_dataset,
@@ -126,19 +106,16 @@ class TrainingPipeline:
             shuffle=False,
         )
 
-
         model = EmbeddingClassifier(
             input_dim=131,
             num_classes=3,
         )
 
-
         class_weights = [
-            3.43,   # Normal
-            1.16,   # Alert
-            0.54,   # Critical
+            3.43,  # Normal
+            1.16,  # Alert
+            0.54,  # Critical
         ]
-
 
         trainer = ClassifierTrainer(
             model=model,
@@ -149,14 +126,11 @@ class TrainingPipeline:
             class_weights=class_weights,
         )
 
-
         trainer.train()
-
 
         logger.info(
             "Classifier training completed successfully."
         )
-
 
 
 if __name__ == "__main__":

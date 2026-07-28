@@ -36,9 +36,7 @@ class OxymQuality(BaseQuality):
 
             self._finalize_report(report)
 
-            logger.info(
-                f"{signal.name}: Oxym quality assessment completed."
-            )
+            logger.info(f"{signal.name}: Oxym quality assessment completed.")
 
             return report
 

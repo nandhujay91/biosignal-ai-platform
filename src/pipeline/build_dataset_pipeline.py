@@ -1,12 +1,12 @@
-from src.pipeline import SignalPreprocessor
-from src.windowing import WindowGenerator
 from src.dataset import (
     DatasetBuilder,
-    DatasetSaver,
     DatasetLoader,
+    DatasetSaver,
 )
+from src.pipeline import SignalPreprocessor
+from src.windowing import WindowGenerator
 
-DATA_DIR = "data/raw"   # Change to your .bin folder
+DATA_DIR = "data/raw"  # Change to your .bin folder
 
 # Step 1: Preprocess
 signals = SignalPreprocessor.run(DATA_DIR)
@@ -32,9 +32,6 @@ datasets, metadata = DatasetLoader.load()
 print("\n========== SUMMARY ==========\n")
 
 for name in datasets:
-    print(
-        f"{name:<6}"
-        f" Shape: {datasets[name].shape}"
-    )
+    print(f"{name:<6}" f" Shape: {datasets[name].shape}")
 
 print("\nPipeline completed successfully.")

@@ -22,9 +22,7 @@ class TemporalMasking:
 
         if not 0 <= mask_ratio < 1:
 
-            raise ValueError(
-                "mask_ratio must be between 0 and 1."
-            )
+            raise ValueError("mask_ratio must be between 0 and 1.")
 
         masked = x.clone()
 

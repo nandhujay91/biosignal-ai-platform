@@ -1,17 +1,13 @@
-from pathlib import Path
 import json
 import shutil
+from pathlib import Path
+
 import yaml
 
-
-SOURCE_MODEL = (
-    "artifacts/classifier/classifier_best.pt"
-)
+SOURCE_MODEL = "artifacts/classifier/classifier_best.pt"
 
 
-OUTPUT_DIR = Path(
-    "artifacts/model/v1"
-)
+OUTPUT_DIR = Path("artifacts/model/v1")
 
 
 def export_model():
@@ -21,14 +17,12 @@ def export_model():
         exist_ok=True,
     )
 
-
     # Copy trained model
 
     shutil.copy(
         SOURCE_MODEL,
         OUTPUT_DIR / "classifier.pt",
     )
-
 
     # Model configuration
 
@@ -47,7 +41,6 @@ def export_model():
         ],
     }
 
-
     with open(
         OUTPUT_DIR / "model_config.yaml",
         "w",
@@ -58,7 +51,6 @@ def export_model():
             file,
         )
 
-
     # Label mapping
 
     labels = {
@@ -66,7 +58,6 @@ def export_model():
         "1": "Alert",
         "2": "Critical",
     }
-
 
     with open(
         OUTPUT_DIR / "class_mapping.json",
@@ -79,7 +70,6 @@ def export_model():
             indent=4,
         )
 
-
     # Version
 
     with open(
@@ -87,14 +77,9 @@ def export_model():
         "w",
     ) as file:
 
-        file.write(
-            "v1"
-        )
+        file.write("v1")
 
-
-    print(
-        "Model exported successfully."
-    )
+    print("Model exported successfully.")
 
 
 if __name__ == "__main__":

@@ -43,7 +43,6 @@ class LabelGenerator:
             ecg_sampling_rate=256,
         )
 
-
     def generate(
         self,
         ephy_windows: np.ndarray,
@@ -52,10 +51,7 @@ class LabelGenerator:
 
         labels = []
 
-
-        for index in range(
-            len(ephy_windows)
-        ):
+        for index in range(len(ephy_windows)):
 
             ephy_signal = Signal(
                 name="Ephy",
@@ -65,7 +61,6 @@ class LabelGenerator:
                 sampling_rate=256,
             )
 
-
             oxym_signal = Signal(
                 name="Oxym",
                 data=oxym_windows[index],
@@ -74,37 +69,27 @@ class LabelGenerator:
                 sampling_rate=128,
             )
 
-
-            features = (
-                self.feature_extractor.extract(
-                    ecg_signal=ephy_signal,
-                    oxym_signal=oxym_signal,
-                )
+            features = self.feature_extractor.extract(
+                ecg_signal=ephy_signal,
+                oxym_signal=oxym_signal,
             )
-
 
             label = BaselineLabeler.assign_label(
                 heart_rate=features["heart_rate"],
                 spo2=features["spo2"],
-                signal_quality=(
-                    features["quality_score"] / 100
-                ),
+                signal_quality=(features["quality_score"] / 100),
             )
 
-
             labels.append(label)
-
 
         labels = np.array(
             labels,
             dtype=np.int64,
         )
 
-
         np.save(
             self.output_path,
             labels,
         )
-
 
         return labels

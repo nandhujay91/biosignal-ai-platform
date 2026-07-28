@@ -24,19 +24,15 @@ class MetricsCalculator:
     Production classification metrics calculator.
     """
 
-
     @staticmethod
     def accuracy(
         predictions: torch.Tensor,
         labels: torch.Tensor,
     ) -> float:
 
-        correct = (
-            predictions == labels
-        ).sum().item()
+        correct = (predictions == labels).sum().item()
 
         return correct / len(labels)
-
 
     @classmethod
     def calculate(
@@ -45,27 +41,21 @@ class MetricsCalculator:
         labels: torch.Tensor,
     ) -> ClassificationMetrics:
 
-
         accuracy = cls.accuracy(
             predictions,
             labels,
         )
 
-
         y_true = labels.cpu().numpy()
 
         y_pred = predictions.cpu().numpy()
 
-
-        precision, recall, f1, support = (
-            precision_recall_fscore_support(
-                y_true,
-                y_pred,
-                labels=[0, 1, 2],
-                zero_division=0,
-            )
+        precision, recall, f1, support = precision_recall_fscore_support(
+            y_true,
+            y_pred,
+            labels=[0, 1, 2],
+            zero_division=0,
         )
-
 
         cm = confusion_matrix(
             y_true,
@@ -73,25 +63,19 @@ class MetricsCalculator:
             labels=[0, 1, 2],
         )
 
-
         class_report = {
-
             "Normal": {
                 "precision": float(precision[0]),
                 "recall": float(recall[0]),
                 "f1": float(f1[0]),
                 "support": int(support[0]),
             },
-
-
             "Alert": {
                 "precision": float(precision[1]),
                 "recall": float(recall[1]),
                 "f1": float(f1[1]),
                 "support": int(support[1]),
             },
-
-
             "Critical": {
                 "precision": float(precision[2]),
                 "recall": float(recall[2]),
@@ -100,23 +84,11 @@ class MetricsCalculator:
             },
         }
 
-
         return ClassificationMetrics(
             accuracy=accuracy,
-
-            precision=float(
-                precision.mean()
-            ),
-
-            recall=float(
-                recall.mean()
-            ),
-
-            f1_score=float(
-                f1.mean()
-            ),
-
+            precision=float(precision.mean()),
+            recall=float(recall.mean()),
+            f1_score=float(f1.mean()),
             confusion_matrix=cm.tolist(),
-
             class_report=class_report,
         )

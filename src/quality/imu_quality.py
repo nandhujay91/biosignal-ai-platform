@@ -40,9 +40,7 @@ class IMUQuality(BaseQuality):
 
             self._finalize_report(report)
 
-            logger.info(
-                f"{signal.name}: IMU quality assessment completed."
-            )
+            logger.info(f"{signal.name}: IMU quality assessment completed.")
 
             return report
 
@@ -100,9 +98,7 @@ class IMUQuality(BaseQuality):
     ) -> None:
 
         if np.any(np.abs(signal.data) > self.MAX_ABSOLUTE_VALUE):
-            report.warnings.append(
-                "Sensor values exceed expected normalized range"
-            )
+            report.warnings.append("Sensor values exceed expected normalized range")
             report.score -= self.RANGE_PENALTY
 
     def _finalize_report(

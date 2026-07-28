@@ -12,17 +12,17 @@ from .trainer import TS2VecTrainer
 from .ts2vec import TS2Vec
 
 __all__ = [
-    "TS2VecEncoder",
-    "HierarchicalContrastiveLoss",
-    "TemporalMasking",
-    "RandomTemporalCrop",
-    "TS2VecAugmentations",
-    "ProjectionHead",
-    "TS2Vec",
-    "MetricTracker",
-    "TrainingMetrics",
-    "LearningRateScheduler",
     "CheckpointManager",
-    "TS2VecTrainer",
+    "HierarchicalContrastiveLoss",
+    "LearningRateScheduler",
+    "MetricTracker",
+    "ProjectionHead",
+    "RandomTemporalCrop",
+    "TS2Vec",
+    "TS2VecAugmentations",
+    "TS2VecEncoder",
     "TS2VecInference",
+    "TS2VecTrainer",
+    "TemporalMasking",
+    "TrainingMetrics",
 ]

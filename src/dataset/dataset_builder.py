@@ -1,4 +1,5 @@
 import sys
+from typing import Any, cast
 
 import numpy as np
 
@@ -25,17 +26,27 @@ class DatasetBuilder:
 
         try:
 
-            datasets = {}
-            metadata = {}
+            datasets: dict[str, np.ndarray] = {}
+            metadata: dict[str, DatasetMetadata] = {}
 
             for signal_name, signal_windows in windows.items():
 
                 signal = signals[signal_name]
 
-                config = SIGNAL_INFO[signal_name]
+                config: dict[str, Any] = cast(
+                    dict[str, Any],
+                    SIGNAL_INFO[signal_name],
+                )
 
-                window_duration = config["window_duration"]
-                overlap = config["overlap"]
+                window_duration = cast(
+                    int,
+                    config["window_duration"],
+                )
+
+                overlap = cast(
+                    float,
+                    config["overlap"],
+                )
 
                 window_size = (
                     signal.sampling_rate
@@ -53,7 +64,15 @@ class DatasetBuilder:
 
                 datasets[signal_name] = dataset
 
-                filter_config = config["filter"]
+                filter_config: dict[str, Any] = cast(
+                    dict[str, Any],
+                    config["filter"],
+                )
+
+                normalization = cast(
+                    str,
+                    config["normalization"],
+                )
 
                 metadata[signal_name] = DatasetMetadata(
                     signal_name=signal.name,
@@ -63,7 +82,7 @@ class DatasetBuilder:
                     window_size=window_size,
                     step_size=step_size,
                     overlap=overlap,
-                    normalization=config["normalization"],
+                    normalization=normalization,
                     filter_type=(
                         filter_config["type"]
                         if filter_config["enabled"]

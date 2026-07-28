@@ -14,7 +14,6 @@ class PredictionRequest(BaseModel):
     )
 
 
-
 class PredictionResponseAPI(BaseModel):
     """
     API response schema.

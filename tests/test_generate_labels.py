@@ -21,16 +21,12 @@ def main():
         },
     ]
 
-
     generator = LabelGenerator()
 
-    labels = generator.generate(
-        features
-    )
+    labels = generator.generate(features)
 
     print("Generated Labels:")
     print(labels)
-
 
     assert labels.tolist() == [
         0,
@@ -38,9 +34,7 @@ def main():
         2,
     ]
 
-    print(
-        "Label generation test passed successfully."
-    )
+    print("Label generation test passed successfully.")
 
 
 if __name__ == "__main__":

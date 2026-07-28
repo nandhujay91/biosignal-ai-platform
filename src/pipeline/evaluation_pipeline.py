@@ -5,7 +5,6 @@ from pathlib import Path
 
 import numpy as np
 import torch
-
 from torch.utils.data import DataLoader, Subset
 
 from src.classifier.classifier import EmbeddingClassifier
@@ -14,18 +13,16 @@ from src.classifier.metrics import MetricsCalculator
 from src.logger import logger
 
 
-
 def stratified_split(
     labels: np.ndarray,
     train_ratio: float = 0.8,
     seed: int = 42,
-):
+) -> tuple[list[int], list[int]]:
 
     rng = np.random.default_rng(seed)
 
-    train_indices = []
-    val_indices = []
-
+    train_indices: list[int] = []
+    val_indices: list[int] = []
 
     for cls in np.unique(labels):
 
@@ -35,28 +32,22 @@ def stratified_split(
 
         rng.shuffle(indices)
 
-
         split = int(
             len(indices) * train_ratio
         )
 
-
         train_indices.extend(
-            indices[:split]
+            indices[:split].tolist()
         )
-
 
         val_indices.extend(
-            indices[split:]
+            indices[split:].tolist()
         )
-
 
     rng.shuffle(train_indices)
     rng.shuffle(val_indices)
 
-
     return train_indices, val_indices
-
 
 
 class EvaluationPipeline:
@@ -64,8 +55,7 @@ class EvaluationPipeline:
     Evaluation pipeline for fusion classifier.
     """
 
-
-    def __init__(self):
+    def __init__(self) -> None:
 
         self.report_path = Path(
             "artifacts/reports/evaluation_metrics.json"
@@ -76,42 +66,30 @@ class EvaluationPipeline:
             exist_ok=True,
         )
 
-
-    def run(self):
+    def run(self) -> dict:
 
         logger.info(
             "Starting evaluation pipeline."
         )
 
-
         dataset = FusionDataset(
-
-            embeddings_path=
-            "artifacts/embeddings/embeddings.npy",
-
-            features_path=
-            "artifacts/datasets/v1/Ephy/features.npy",
-
-            labels_path=
-            "artifacts/labels/labels.npy",
+            embeddings_path="artifacts/embeddings/embeddings.npy",
+            features_path="artifacts/datasets/v1/Ephy/features.npy",
+            labels_path="artifacts/labels/labels.npy",
         )
-
 
         labels = np.load(
             "artifacts/labels/labels.npy"
         )
 
-
         _, validation_indices = stratified_split(
             labels
         )
-
 
         validation_dataset = Subset(
             dataset,
             validation_indices,
         )
-
 
         loader = DataLoader(
             validation_dataset,
@@ -119,30 +97,24 @@ class EvaluationPipeline:
             shuffle=False,
         )
 
-
         model = EmbeddingClassifier(
             input_dim=131,
             num_classes=3,
         )
-
 
         checkpoint = torch.load(
             "artifacts/classifier/classifier_best.pt",
             map_location="cpu",
         )
 
-
         model.load_state_dict(
             checkpoint["model_state_dict"]
         )
 
-
         model.eval()
 
-
-        predictions = []
-        true_labels = []
-
+        predictions: list[int] = []
+        true_labels: list[int] = []
 
         with torch.no_grad():
 
@@ -155,53 +127,40 @@ class EvaluationPipeline:
                     dim=1,
                 )
 
-
                 predictions.extend(
                     pred.tolist()
                 )
-
 
                 true_labels.extend(
                     y.tolist()
                 )
 
-
-        predictions = torch.tensor(
+        predictions_tensor = torch.tensor(
             predictions
         )
 
-        true_labels = torch.tensor(
+        true_labels_tensor = torch.tensor(
             true_labels
         )
 
-
         metrics = MetricsCalculator.calculate(
-            predictions,
-            true_labels,
+            predictions_tensor,
+            true_labels_tensor,
         )
 
-
         report = {
-
             "accuracy": metrics.accuracy,
-
             "precision": metrics.precision,
-
             "recall": metrics.recall,
-
             "f1_score": metrics.f1_score,
-
-            "confusion_matrix":
-                metrics.confusion_matrix,
-
-            "class_report":
-                metrics.class_report,
+            "confusion_matrix": metrics.confusion_matrix,
+            "class_report": metrics.class_report,
         }
-
 
         with open(
             self.report_path,
             "w",
+            encoding="utf-8",
         ) as file:
 
             json.dump(
@@ -210,20 +169,18 @@ class EvaluationPipeline:
                 indent=4,
             )
 
-
         logger.info(
             f"Evaluation report saved: {self.report_path}"
         )
 
-
-        print(json.dumps(
-            report,
-            indent=4,
-        ))
-
+        print(
+            json.dumps(
+                report,
+                indent=4,
+            )
+        )
 
         return report
-
 
 
 if __name__ == "__main__":

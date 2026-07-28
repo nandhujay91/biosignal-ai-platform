@@ -29,34 +29,22 @@ class SpO2Extractor:
         if oxym_signal.ndim > 1:
             oxym_signal = oxym_signal[:, 0]
 
-
         # Remove invalid values
-        oxym_signal = oxym_signal[
-            np.isfinite(oxym_signal)
-        ]
-
+        oxym_signal = oxym_signal[np.isfinite(oxym_signal)]
 
         if len(oxym_signal) == 0:
             return 0.0
 
-
-        signal_mean = np.mean(
-            np.abs(oxym_signal)
-        )
-
+        signal_mean = np.mean(np.abs(oxym_signal))
 
         # Placeholder calibration curve
         # Production device calibration replaces this
-        spo2 = 100 - (
-            signal_mean * 0.05
-        )
-
+        spo2 = 100 - (signal_mean * 0.05)
 
         spo2 = np.clip(
             spo2,
             70,
             100,
         )
-
 
         return float(spo2)

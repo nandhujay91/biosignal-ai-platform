@@ -36,11 +36,10 @@ class RandomTemporalCrop:
         """
 
         if not 0 < min_crop_ratio <= 1:
-            raise ValueError(
-                "min_crop_ratio must be between 0 and 1."
-            )
+            raise ValueError("min_crop_ratio must be between 0 and 1.")
 
-        batch, length, channels = x.shape
+        # Only length is required
+        _, length, _ = x.shape
 
         min_crop_length = max(
             1,

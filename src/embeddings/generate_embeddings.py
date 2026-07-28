@@ -22,19 +22,14 @@ class EmbeddingGenerator:
 
         self.device = torch.device(device)
 
-        self.checkpoint_path = Path(
-            checkpoint_path
-        )
+        self.checkpoint_path = Path(checkpoint_path)
 
-        self.output_path = Path(
-            output_path
-        )
+        self.output_path = Path(output_path)
 
         self.output_path.parent.mkdir(
             parents=True,
             exist_ok=True,
         )
-
 
     def load_model(self) -> TS2Vec:
 
@@ -45,17 +40,12 @@ class EmbeddingGenerator:
             depth=8,
         )
 
-
         checkpoint = torch.load(
             self.checkpoint_path,
             map_location=self.device,
         )
 
-
-        model.load_state_dict(
-            checkpoint["model_state_dict"]
-        )
-
+        model.load_state_dict(checkpoint["model_state_dict"])
 
         model.to(self.device)
 
@@ -63,49 +53,30 @@ class EmbeddingGenerator:
 
         return model
 
-
     @torch.no_grad()
     def generate(
         self,
         windows_path: str | Path,
     ) -> np.ndarray:
 
-
-        windows = np.load(
-            windows_path
-        )
-
+        windows = np.load(windows_path)
 
         model = self.load_model()
-
 
         x = torch.tensor(
             windows,
             dtype=torch.float32,
         ).to(self.device)
 
+        embeddings = model.encoder(x)
 
-        embeddings = model.encoder(
-            x
-        )
+        embeddings = embeddings.mean(dim=1)
 
-
-        embeddings = embeddings.mean(
-            dim=1
-        )
-
-
-        embeddings = (
-            embeddings
-            .cpu()
-            .numpy()
-        )
-
+        embeddings = embeddings.cpu().numpy()
 
         np.save(
             self.output_path,
             embeddings,
         )
-
 
         return embeddings

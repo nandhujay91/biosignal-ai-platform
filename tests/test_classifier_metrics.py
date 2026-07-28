@@ -9,18 +9,30 @@ def main() -> None:
 
     labels = torch.tensor(
         [
-            0, 1, 2,
-            0, 1, 2,
-            0, 1, 2,
+            0,
+            1,
+            2,
+            0,
+            1,
+            2,
+            0,
+            1,
+            2,
             0,
         ]
     )
 
     predictions = torch.tensor(
         [
-            0, 1, 2,
-            0, 2, 2,
-            1, 1, 2,
+            0,
+            1,
+            2,
+            0,
+            2,
+            2,
+            1,
+            1,
+            2,
             0,
         ]
     )
@@ -35,9 +47,7 @@ def main() -> None:
     print(f"Recall   : {metrics.recall:.4f}")
     print(f"F1 Score : {metrics.f1_score:.4f}")
 
-    print(
-        "\nClassifier metrics test passed successfully."
-    )
+    print("\nClassifier metrics test passed successfully.")
 
 
 if __name__ == "__main__":

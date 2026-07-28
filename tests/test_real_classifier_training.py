@@ -21,77 +21,48 @@ def stratified_split(
 
     for cls in np.unique(labels):
 
-        class_indices = np.where(
-            labels == cls
-        )[0]
+        class_indices = np.where(labels == cls)[0]
 
-        rng.shuffle(
-            class_indices
-        )
+        rng.shuffle(class_indices)
 
-        split = int(
-            len(class_indices) * train_ratio
-        )
+        split = int(len(class_indices) * train_ratio)
 
-        train_indices.extend(
-            class_indices[:split]
-        )
+        train_indices.extend(class_indices[:split])
 
-        val_indices.extend(
-            class_indices[split:]
-        )
-
+        val_indices.extend(class_indices[split:])
 
     rng.shuffle(train_indices)
     rng.shuffle(val_indices)
 
-
     return train_indices, val_indices
-
 
 
 def main():
 
     dataset = FusionDataset(
-
-        embeddings_path=
-        "artifacts/embeddings/embeddings.npy",
-
-        features_path=
-        "artifacts/datasets/v1/Ephy/features.npy",
-
-        labels_path=
-        "artifacts/labels/labels.npy",
+        embeddings_path="artifacts/embeddings/embeddings.npy",
+        features_path="artifacts/datasets/v1/Ephy/features.npy",
+        labels_path="artifacts/labels/labels.npy",
     )
 
-
-    labels = np.load(
-        "artifacts/labels/labels.npy"
-    )
-
+    labels = np.load("artifacts/labels/labels.npy")
 
     print(
         "Total Dataset Size:",
         len(dataset),
     )
 
-
-    train_idx, val_idx = stratified_split(
-        labels
-    )
-
+    train_idx, val_idx = stratified_split(labels)
 
     train_dataset = Subset(
         dataset,
         train_idx,
     )
 
-
     val_dataset = Subset(
         dataset,
         val_idx,
     )
-
 
     print(
         "Train Size:",
@@ -103,13 +74,11 @@ def main():
         len(val_dataset),
     )
 
-
     train_loader = DataLoader(
         train_dataset,
         batch_size=32,
         shuffle=True,
     )
-
 
     validation_loader = DataLoader(
         val_dataset,
@@ -117,19 +86,16 @@ def main():
         shuffle=False,
     )
 
-
     model = EmbeddingClassifier(
         input_dim=131,
         num_classes=3,
     )
-
 
     class_weights = [
         3.43,
         1.16,
         0.54,
     ]
-
 
     trainer = ClassifierTrainer(
         model=model,
@@ -140,13 +106,9 @@ def main():
         class_weights=class_weights,
     )
 
-
     trainer.train()
 
-
-    print(
-        "Fusion classifier training completed successfully."
-    )
+    print("Fusion classifier training completed successfully.")
 
 
 if __name__ == "__main__":

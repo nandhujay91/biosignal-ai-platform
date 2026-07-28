@@ -1,5 +1,4 @@
 import sys
-from pathlib import Path
 
 import numpy as np
 import yaml
@@ -32,9 +31,7 @@ class DatasetLoader:
 
             if not cls.ROOT_DIR.exists():
 
-                raise FileNotFoundError(
-                    f"{cls.ROOT_DIR} does not exist."
-                )
+                raise FileNotFoundError(f"{cls.ROOT_DIR} does not exist.")
 
             for signal_dir in sorted(cls.ROOT_DIR.iterdir()):
 
@@ -43,13 +40,9 @@ class DatasetLoader:
 
                 signal_name = signal_dir.name
 
-                dataset_path = (
-                    signal_dir / "windows.npy"
-                )
+                dataset_path = signal_dir / "windows.npy"
 
-                metadata_path = (
-                    signal_dir / "metadata.yaml"
-                )
+                metadata_path = signal_dir / "metadata.yaml"
 
                 dataset = np.load(dataset_path)
 
@@ -59,21 +52,14 @@ class DatasetLoader:
                     encoding="utf-8",
                 ) as file:
 
-                    meta = DatasetMetadata.from_dict(
-                        yaml.safe_load(file)
-                    )
+                    meta = DatasetMetadata.from_dict(yaml.safe_load(file))
 
                 datasets[signal_name] = dataset
                 metadata[signal_name] = meta
 
-                logger.info(
-                    f"{signal_name}: "
-                    f"{dataset.shape} loaded."
-                )
+                logger.info(f"{signal_name}: " f"{dataset.shape} loaded.")
 
-            logger.info(
-                "Datasets loaded successfully."
-            )
+            logger.info("Datasets loaded successfully.")
 
             return datasets, metadata
 

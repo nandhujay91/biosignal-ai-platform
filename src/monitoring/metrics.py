@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from prometheus_client import Counter, Histogram, Gauge
-
+from prometheus_client import Counter, Gauge, Histogram
 
 # =====================================================
 # Prediction metrics
@@ -16,9 +15,7 @@ PREDICTION_COUNT = Counter(
 PREDICTION_LABELS = Counter(
     "biosignal_prediction_labels_total",
     "Total predictions grouped by predicted label",
-    [
-        "prediction"
-    ],
+    ["prediction"],
 )
 
 
@@ -75,7 +72,5 @@ ACTIVE_REQUESTS = Gauge(
 MODEL_VERSION = Gauge(
     "biosignal_model_version_info",
     "Current deployed model version",
-    [
-        "version"
-    ],
+    ["version"],
 )

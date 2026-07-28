@@ -45,9 +45,7 @@ class ECGQuality(BaseQuality):
 
             self._finalize_report(report)
 
-            logger.info(
-                f"{signal.name}: ECG quality assessment completed."
-            )
+            logger.info(f"{signal.name}: ECG quality assessment completed.")
 
             return report
 

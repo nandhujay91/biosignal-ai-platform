@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 from types import TracebackType
 
@@ -8,20 +10,30 @@ class CustomException(Exception):
     about an exception for easier debugging.
     """
 
-    def __init__(self, error: Exception, error_details: sys):
+    def __init__(
+        self,
+        error: Exception,
+        error_details: object,
+    ) -> None:
+
         super().__init__(str(error))
-        self.error_message = self._build_error_message(error, error_details)
+
+        self.error_message = self._build_error_message(
+            error,
+            error_details,
+        )
+
 
     @staticmethod
     def _build_error_message(
         error: Exception,
-        error_details: sys,
+        error_details: object,
     ) -> str:
         """
         Build a detailed exception message.
         """
 
-        _, _, traceback = error_details.exc_info()
+        _, _, traceback = sys.exc_info()
 
         if traceback is None:
             return str(error)
@@ -43,6 +55,7 @@ class CustomException(Exception):
             f"Message   : {error}\n"
             "========================================"
         )
+
 
     def __str__(self) -> str:
         return self.error_message

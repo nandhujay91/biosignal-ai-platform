@@ -26,19 +26,11 @@ class BaselineLabeler:
         """
 
         # Critical conditions
-        if (
-            spo2 < 90
-            or heart_rate > 120
-            or signal_quality < 0.5
-        ):
+        if spo2 < 90 or heart_rate > 120 or signal_quality < 0.5:
             return BaselineLabeler.CRITICAL
 
         # Alert conditions
-        if (
-            spo2 < 95
-            or heart_rate > 100
-            or signal_quality < 0.8
-        ):
+        if spo2 < 95 or heart_rate > 100 or signal_quality < 0.8:
             return BaselineLabeler.ALERT
 
         # Normal

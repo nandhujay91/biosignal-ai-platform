@@ -32,9 +32,7 @@ class CheckpointManager:
             exist_ok=True,
         )
 
-        self.checkpoint_path = (
-            self.checkpoint_dir / checkpoint_name
-        )
+        self.checkpoint_path = self.checkpoint_dir / checkpoint_name
 
     def save(
         self,
@@ -52,9 +50,7 @@ class CheckpointManager:
                 "model_state_dict": model.state_dict(),
                 "optimizer_state_dict": optimizer.state_dict(),
                 "scheduler_state_dict": (
-                    scheduler.state_dict()
-                    if scheduler is not None
-                    else None
+                    scheduler.state_dict() if scheduler is not None else None
                 ),
             },
             self.checkpoint_path,
@@ -79,34 +75,20 @@ class CheckpointManager:
         """
 
         if not self.checkpoint_path.exists():
-            raise FileNotFoundError(
-                f"Checkpoint not found: {self.checkpoint_path}"
-            )
+            raise FileNotFoundError(f"Checkpoint not found: {self.checkpoint_path}")
 
         checkpoint = torch.load(
             self.checkpoint_path,
             map_location="cpu",
         )
 
-        model.load_state_dict(
-            checkpoint["model_state_dict"]
-        )
+        model.load_state_dict(checkpoint["model_state_dict"])
 
-        if (
-            optimizer is not None
-            and checkpoint.get("optimizer_state_dict") is not None
-        ):
-            optimizer.load_state_dict(
-                checkpoint["optimizer_state_dict"]
-            )
+        if optimizer is not None and checkpoint.get("optimizer_state_dict") is not None:
+            optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
 
-        if (
-            scheduler is not None
-            and checkpoint.get("scheduler_state_dict") is not None
-        ):
-            scheduler.load_state_dict(
-                checkpoint["scheduler_state_dict"]
-            )
+        if scheduler is not None and checkpoint.get("scheduler_state_dict") is not None:
+            scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
 
         return (
             checkpoint["epoch"],

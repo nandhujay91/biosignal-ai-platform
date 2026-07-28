@@ -1,6 +1,7 @@
+from __future__ import annotations
+
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
+from torch import nn
 
 
 class SamePadConv1D(nn.Module):
@@ -15,6 +16,7 @@ class SamePadConv1D(nn.Module):
         kernel_size: int,
         dilation: int = 1,
     ) -> None:
+
         super().__init__()
 
         padding = ((kernel_size - 1) * dilation) // 2
@@ -69,6 +71,10 @@ class ResidualBlock(nn.Module):
 
         self.dropout = nn.Dropout(dropout)
 
+        # Important for MyPy:
+        # Conv1d and Identity are both nn.Module
+        self.residual: nn.Module
+
         if in_channels != out_channels:
 
             self.residual = nn.Conv1d(
@@ -81,6 +87,7 @@ class ResidualBlock(nn.Module):
 
             self.residual = nn.Identity()
 
+
     def forward(
         self,
         x: torch.Tensor,
@@ -89,7 +96,9 @@ class ResidualBlock(nn.Module):
         residual = self.residual(x)
 
         out = self.conv1(x)
+
         out = self.relu(out)
+
         out = self.dropout(out)
 
         out = self.conv2(out)
@@ -115,27 +124,28 @@ class DilatedResidualEncoder(nn.Module):
 
         super().__init__()
 
-        layers = []
+        layers: list[nn.Module] = []
 
         in_channels = input_dim
 
         for i in range(depth):
 
-            dilation = 2 ** i
+            dilation = 2**i
 
             layers.append(
-
                 ResidualBlock(
                     in_channels=in_channels,
                     out_channels=hidden_dim,
                     dilation=dilation,
                 )
-
             )
 
             in_channels = hidden_dim
 
-        self.network = nn.Sequential(*layers)
+        self.network = nn.Sequential(
+            *layers
+        )
+
 
     def forward(
         self,
@@ -165,6 +175,7 @@ class TS2VecEncoder(nn.Module):
             depth=depth,
         )
 
+
     def forward(
         self,
         x: torch.Tensor,
@@ -177,10 +188,16 @@ class TS2VecEncoder(nn.Module):
             (batch, length, hidden_dim)
         """
 
-        x = x.transpose(1, 2)
+        x = x.transpose(
+            1,
+            2,
+        )
 
         x = self.encoder(x)
 
-        x = x.transpose(1, 2)
+        x = x.transpose(
+            1,
+            2,
+        )
 
         return x

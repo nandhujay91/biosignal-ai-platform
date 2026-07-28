@@ -16,7 +16,6 @@ class HeartRateExtractor:
 
         self.sampling_rate = sampling_rate
 
-
     def calculate_bpm(
         self,
         ecg_signal: np.ndarray,
@@ -35,7 +34,6 @@ class HeartRateExtractor:
 
         if len(peaks) < 2:
             return 0.0
-
 
         rr_intervals = np.diff(peaks) / self.sampling_rate
 

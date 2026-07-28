@@ -29,9 +29,7 @@ class QualityManager:
             quality_checker = cls._QUALITY_MAP.get(signal.name)
 
             if quality_checker is None:
-                raise ValueError(
-                    f"No quality checker registered for '{signal.name}'."
-                )
+                raise ValueError(f"No quality checker registered for '{signal.name}'.")
 
             return quality_checker.assess(signal)
 

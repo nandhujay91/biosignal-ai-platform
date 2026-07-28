@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import torch
-from torch.utils.data import DataLoader
-from torch.utils.data import TensorDataset
+from torch.utils.data import DataLoader, TensorDataset
 
 from src.classifier.classifier import EmbeddingClassifier
 from src.classifier.trainer import ClassifierTrainer

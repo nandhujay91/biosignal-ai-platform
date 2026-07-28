@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import pandas as pd
-
 from evidently import Report
 from evidently.presets import DataDriftPreset
 
@@ -12,15 +11,9 @@ class DriftDetector:
     between training and production data.
     """
 
-
     def __init__(self):
 
-        self.report = Report(
-            metrics=[
-                DataDriftPreset()
-            ]
-        )
-
+        self.report = Report(metrics=[DataDriftPreset()])
 
     def run(
         self,

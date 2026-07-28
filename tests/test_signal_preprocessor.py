@@ -3,9 +3,7 @@ from src.pipeline import SignalPreprocessor
 
 def test_signal_preprocessor():
 
-    processed = SignalPreprocessor.run(
-        "data/test"
-    )
+    processed = SignalPreprocessor.run("data/test")
 
     print()
 

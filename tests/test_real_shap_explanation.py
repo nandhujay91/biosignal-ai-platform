@@ -31,12 +31,7 @@ def load_real_fusion_features():
     # Expected:
     # embedding.shape = (128,)
 
-    embedding = np.random.rand(
-        128
-    ).astype(
-        np.float32
-    )
-
+    embedding = np.random.rand(128).astype(np.float32)
 
     # Real signal-level features
     #
@@ -52,7 +47,6 @@ def load_real_fusion_features():
         dtype=np.float32,
     )
 
-
     fusion_features = np.concatenate(
         [
             embedding,
@@ -60,73 +54,40 @@ def load_real_fusion_features():
         ]
     )
 
-
     if fusion_features.shape[0] != 131:
 
-        raise ValueError(
-            f"Expected 131 features, got {fusion_features.shape[0]}"
-        )
-
+        raise ValueError(f"Expected 131 features, got {fusion_features.shape[0]}")
 
     return fusion_features
 
 
-
 def main():
 
-    print(
-        "Loading SHAP explainer..."
-    )
-
+    print("Loading SHAP explainer...")
 
     explainer = SHAPExplainer()
 
-
-
     features = load_real_fusion_features()
 
+    print("Fusion feature shape:", features.shape)
 
-    print(
-        "Fusion feature shape:",
-        features.shape
-    )
-
-
-    result = explainer.explain(
-        features
-    )
-
+    result = explainer.explain(features)
 
     print("\nPrediction")
     print("----------------")
 
-    print(
-        "Class:",
-        result["prediction_class"]
-    )
+    print("Class:", result["prediction_class"])
 
-
-    print(
-        "Confidence:",
-        result["confidence"]
-    )
-
+    print("Confidence:", result["confidence"])
 
     print("\nTop Important Features")
     print("----------------------")
 
-
     for item in result["top_features"]:
 
-        print(
-            f"{item['feature']} => {item['impact']:.6f}"
-        )
+        print(f"{item['feature']} => {item['impact']:.6f}")
 
-
-    print(
-        "\nSHAP explanation generated successfully."
-    )
-
+    print("\nSHAP explanation generated successfully.")
 
 
 if __name__ == "__main__":

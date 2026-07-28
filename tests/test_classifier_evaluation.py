@@ -20,43 +20,21 @@ def stratified_split(
     train_indices = []
     val_indices = []
 
-
     for cls in np.unique(labels):
 
-        class_indices = np.where(
-            labels == cls
-        )[0]
+        class_indices = np.where(labels == cls)[0]
 
+        rng.shuffle(class_indices)
 
-        rng.shuffle(
-            class_indices
-        )
+        split_point = int(len(class_indices) * train_ratio)
 
+        train_indices.extend(class_indices[:split_point])
 
-        split_point = int(
-            len(class_indices)
-            * train_ratio
-        )
+        val_indices.extend(class_indices[split_point:])
 
+    rng.shuffle(train_indices)
 
-        train_indices.extend(
-            class_indices[:split_point]
-        )
-
-
-        val_indices.extend(
-            class_indices[split_point:]
-        )
-
-
-    rng.shuffle(
-        train_indices
-    )
-
-    rng.shuffle(
-        val_indices
-    )
-
+    rng.shuffle(val_indices)
 
     return (
         train_indices,
@@ -64,33 +42,21 @@ def stratified_split(
     )
 
 
-
 def main():
 
     # Load fusion dataset
     dataset = FusionDataset(
-
-        embeddings_path=
-        "artifacts/embeddings/embeddings.npy",
-
-        features_path=
-        "artifacts/datasets/v1/Ephy/features.npy",
-
-        labels_path=
-        "artifacts/labels/labels.npy",
+        embeddings_path="artifacts/embeddings/embeddings.npy",
+        features_path="artifacts/datasets/v1/Ephy/features.npy",
+        labels_path="artifacts/labels/labels.npy",
     )
-
 
     print(
         "Dataset Size:",
         len(dataset),
     )
 
-
-    labels = np.load(
-        "artifacts/labels/labels.npy"
-    )
-
+    labels = np.load("artifacts/labels/labels.npy")
 
     # Same stratified split as training
     _, validation_indices = stratified_split(
@@ -99,18 +65,15 @@ def main():
         seed=42,
     )
 
-
     validation_dataset = Subset(
         dataset,
         validation_indices,
     )
 
-
     print(
         "Validation Size:",
         len(validation_dataset),
     )
-
 
     validation_loader = DataLoader(
         validation_dataset,
@@ -118,138 +81,85 @@ def main():
         shuffle=False,
     )
 
-
     # Fusion model
     model = EmbeddingClassifier(
         input_dim=131,
         num_classes=3,
     )
 
-
     checkpoint = torch.load(
         "artifacts/classifier/classifier_best.pt",
         map_location="cpu",
     )
 
-
-    model.load_state_dict(
-        checkpoint["model_state_dict"]
-    )
-
+    model.load_state_dict(checkpoint["model_state_dict"])
 
     print(
         "Loaded Best Loss:",
         checkpoint["best_loss"],
     )
 
-
     model.eval()
-
 
     all_predictions = []
     all_labels = []
-
 
     with torch.no_grad():
 
         for features, labels in validation_loader:
 
-            outputs = model(
-                features
-            )
-
+            outputs = model(features)
 
             predictions = torch.argmax(
                 outputs,
                 dim=1,
             )
 
+            all_predictions.extend(predictions.tolist())
 
-            all_predictions.extend(
-                predictions.tolist()
-            )
+            all_labels.extend(labels.tolist())
 
+    predictions_tensor = torch.tensor(all_predictions)
 
-            all_labels.extend(
-                labels.tolist()
-            )
-
-
-    predictions_tensor = torch.tensor(
-        all_predictions
-    )
-
-
-    labels_tensor = torch.tensor(
-        all_labels
-    )
-
+    labels_tensor = torch.tensor(all_labels)
 
     metrics = MetricsCalculator.calculate(
         predictions_tensor,
         labels_tensor,
     )
 
-
     print("\nEvaluation Results")
     print("------------------")
 
+    print(f"Accuracy  : {metrics.accuracy:.4f}")
 
-    print(
-        f"Accuracy  : {metrics.accuracy:.4f}"
-    )
+    print(f"Precision : {metrics.precision:.4f}")
 
-    print(
-        f"Precision : {metrics.precision:.4f}"
-    )
+    print(f"Recall    : {metrics.recall:.4f}")
 
-    print(
-        f"Recall    : {metrics.recall:.4f}"
-    )
-
-    print(
-        f"F1 Score  : {metrics.f1_score:.4f}"
-    )
-
+    print(f"F1 Score  : {metrics.f1_score:.4f}")
 
     print("\nConfusion Matrix")
     print("----------------")
 
-    print(
-        metrics.confusion_matrix
-    )
-
+    print(metrics.confusion_matrix)
 
     print("\nClass Wise Metrics")
     print("------------------")
 
-
     for class_name, values in metrics.class_report.items():
 
-        print(
-            f"\n{class_name}"
-        )
+        print(f"\n{class_name}")
 
-        print(
-            f"Precision : {values['precision']:.4f}"
-        )
+        print(f"Precision : {values['precision']:.4f}")
 
-        print(
-            f"Recall    : {values['recall']:.4f}"
-        )
+        print(f"Recall    : {values['recall']:.4f}")
 
-        print(
-            f"F1 Score  : {values['f1']:.4f}"
-        )
+        print(f"F1 Score  : {values['f1']:.4f}")
 
-        print(
-            f"Samples   : {values['support']}"
-        )
+        print(f"Samples   : {values['support']}")
 
-
-    print(
-        "\nFusion classifier evaluation completed successfully."
-    )
+    print("\nFusion classifier evaluation completed successfully.")
 
 
 if __name__ == "__main__":

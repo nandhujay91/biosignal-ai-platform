@@ -24,24 +24,16 @@ class SignalValidator:
             for signal_name, signal in parsed_signals.items():
 
                 if not isinstance(signal, Signal):
-                    raise TypeError(
-                        f"{signal_name} is not a Signal entity."
-                    )
+                    raise TypeError(f"{signal_name} is not a Signal entity.")
 
                 if not isinstance(signal.data, np.ndarray):
-                    raise TypeError(
-                        f"{signal_name}.data is not a NumPy array."
-                    )
+                    raise TypeError(f"{signal_name}.data is not a NumPy array.")
 
                 if signal.data.size == 0:
-                    raise ValueError(
-                        f"{signal_name} is empty."
-                    )
+                    raise ValueError(f"{signal_name} is empty.")
 
                 if signal.data.ndim != 2:
-                    raise ValueError(
-                        f"{signal_name} must be a 2D array."
-                    )
+                    raise ValueError(f"{signal_name} must be a 2D array.")
 
                 if signal.data.shape[1] != signal.channels:
                     raise ValueError(
@@ -58,25 +50,16 @@ class SignalValidator:
                     )
 
                 if np.isnan(signal.data).any():
-                    raise ValueError(
-                        f"{signal_name} contains NaN values."
-                    )
+                    raise ValueError(f"{signal_name} contains NaN values.")
 
                 if np.isinf(signal.data).any():
-                    raise ValueError(
-                        f"{signal_name} contains infinite values."
-                    )
+                    raise ValueError(f"{signal_name} contains infinite values.")
 
-                logger.info(
-                    f"{signal_name} validation passed."
-                )
+                logger.info(f"{signal_name} validation passed.")
 
                 validated_signals[signal_name] = signal
 
-            logger.info(
-                f"Successfully validated "
-                f"{len(validated_signals)} signals."
-            )
+            logger.info(f"Successfully validated " f"{len(validated_signals)} signals.")
 
             return validated_signals
 

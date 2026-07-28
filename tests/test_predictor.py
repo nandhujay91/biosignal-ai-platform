@@ -5,23 +5,13 @@ def main():
 
     predictor = BiosignalPredictor()
 
+    sample = [0.1] * 131
 
-    sample = [
-        0.1
-    ] * 131
-
-
-    result = predictor.predict(
-        sample
-    )
-
+    result = predictor.predict(sample)
 
     print(result)
 
-
-    print(
-        "Predictor test passed."
-    )
+    print("Predictor test passed.")
 
 
 if __name__ == "__main__":

@@ -6,16 +6,13 @@ from src.api.schemas import (
     PredictionRequest,
     PredictionResponseAPI,
 )
-
 from src.inference.predictor import BiosignalPredictor
-
 
 router = APIRouter()
 
 
 # Load model once when API starts
 predictor = BiosignalPredictor()
-
 
 
 @router.post(
@@ -28,10 +25,7 @@ def predict(
 
     try:
 
-        result = predictor.predict(
-            request.features
-        )
-
+        result = predictor.predict(request.features)
 
         return PredictionResponseAPI(
             prediction=result.prediction,
@@ -40,7 +34,6 @@ def predict(
             recommended_action=result.recommended_action,
             model_version=result.model_version,
         )
-
 
     except Exception as error:
 

@@ -1,14 +1,14 @@
 import json
 import pickle
 import random
+import sys
 import time
 from pathlib import Path
 
 import numpy as np
 
-from src.logger import logger
 from src.exceptions import CustomException
-import sys
+from src.logger import logger
 
 
 def get_current_timestamp() -> str:
