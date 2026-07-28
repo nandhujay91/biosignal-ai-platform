@@ -35,3 +35,18 @@ logs/
 
 # Environment
 .env
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+
+# Tools cache
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# ML artifacts
+mlruns/
+artifacts/
