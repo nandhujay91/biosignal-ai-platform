@@ -1,7 +1,7 @@
 [project]
 name = "embedding-model-biosignal"
 version = "0.1.0"
-description = "Add your description here"
+description = "Production-grade biosignal AI platform for representation learning and health monitoring"
 readme = "README.md"
 requires-python = ">=3.11"
 
@@ -60,6 +60,10 @@ python_files = [
     "test_*.py"
 ]
 
+markers = [
+    "integration: marks tests requiring full pipeline execution",
+]
+
 filterwarnings = [
     "ignore::DeprecationWarning:litestar.*",
     "ignore::PendingDeprecationWarning:litestar.*",
@@ -102,35 +106,26 @@ select = [
 
 
 ignore = [
-    # Package exports
     "F401",
     "F403",
 
-    # Existing project exception handling
     "BLE001",
     "B904",
 
-    # FastAPI dependency injection
     "B008",
 
-    # Iterator rules
     "B905",
 
-    # Tests
     "TRY002",
     "TRY003",
 
-    # Project try/except patterns
     "TRY300",
     "TRY301",
 
-    # Explicit open mode
     "UP015",
 
-    # Datetime
     "DTZ005",
 
-    # Class constants
     "RUF012",
 ]
 

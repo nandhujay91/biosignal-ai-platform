@@ -1,12 +1,13 @@
 # Biosignal AI Platform
-## Production-Grade Deep Learning Pipeline for Biosignal Representation Learning and Intelligent Health Monitoring
+
+## Production-Grade Deep Learning Platform for Biosignal Representation Learning and Intelligent Health Monitoring
 
 
 <p align="center">
 
 End-to-end machine learning platform for processing multi-channel biosignals,
-learning robust representations using self-supervised deep learning,
-and performing reliable signal classification with MLOps practices.
+learning robust temporal representations using self-supervised deep learning,
+and performing reliable physiological state classification with production-oriented MLOps practices.
 
 </p>
 
@@ -16,403 +17,441 @@ and performing reliable signal classification with MLOps practices.
 # 1. Project Overview
 
 Modern wearable healthcare devices generate high-frequency,
-multi-dimensional biosignals that require robust AI systems for:
+multi-dimensional biosignals requiring intelligent AI systems for:
 
 - Signal quality assessment
 - Noise reduction
-- Feature learning
-- Representation extraction
-- Health state classification
+- Temporal representation learning
+- Feature extraction
+- Physiological state classification
 - Continuous model monitoring
 
 
-This project implements a complete production-oriented AI pipeline:
+This project implements a complete production-oriented biosignal AI pipeline:
+
+
+```text
 Raw Biosignal Data
-|
-v
+        |
+        v
 Data Ingestion
-|
-v
+        |
+        v
 Signal Parsing
-|
-v
+        |
+        v
 Signal Validation
-|
-v
-Preprocessing Pipeline
-|
-v
+        |
+        v
+Signal Preprocessing
+        |
+        v
 Quality Assessment
-|
-v
+        |
+        v
 Temporal Window Generation
-|
-v
+        |
+        v
 Self-Supervised Representation Learning
-|
-v
+        |
+        v
 Embedding Generation
-|
-v
-Supervised Classification
-|
-v
-Model Evaluation & Monitoring
+        |
+        v
+Feature Fusion Classification
+        |
+        v
+Model Evaluation
+        |
+        v
+Production Inference
 
 
+2. Business Objective
 
----
+Healthcare and wearable systems require AI solutions capable of:
 
-# 2. Business Objective
+Processing noisy sensor streams automatically
+Learning meaningful temporal patterns
+Detecting abnormal physiological states
+Supporting scalable deployment
+Maintaining model reliability over time
 
-Healthcare and wearable systems require AI models that can:
+The objective of this platform is to transform raw biosignals into actionable AI-driven health intelligence.
 
-- Process noisy sensor data automatically
-- Learn meaningful signal representations
-- Detect abnormal physiological patterns
-- Support scalable deployment
-- Maintain model reliability over time
-
-
-The objective of this platform is to build a reusable AI framework capable of transforming raw biosignals into actionable intelligence.
-
-
----
-
-# 3. Supported Biosignal Modalities
-
-| Signal | Description | Channels |
-|---|---|---|
-| ECG / EPHY | Electrical cardiac activity | Multi-channel |
-| IMU | Motion and acceleration signals | Multi-channel |
-| OXYM | Oxygen saturation signals | Multi-channel |
-| AUX | Auxiliary sensor signals | Multi-channel |
+3. Supported Biosignal Modalities
+Signal	Description	Channels
+ECG / EPHY	Electrical cardiac activity	Multi-channel
+IMU	Motion and acceleration signals	Multi-channel
+OXYM	Oxygen saturation signals	Multi-channel
+AUX	Auxiliary sensor signals	Multi-channel
 
 
----
+4. System Architecture
+                 Biosignal Files
+                       |
+                       v
+              Binary Data Ingestion
+                       |
+                       v
+                 Signal Parser
+                       |
+                       v
+              Validation Framework
+                       |
+                       v
+        Filtering + Normalization Pipeline
+                       |
+                       v
+              Sliding Window Engine
+                       |
+                       v
+          Self-Supervised Encoder
+                 (TS2Vec)
+                       |
+                       v
+              Signal Embeddings
+                       |
+              +--------+--------+
+              |                 |
+              v                 v
 
-# 4. System Architecture
+      Engineered Features   Learned Representation
 
+              |                 |
+              +--------+--------+
 
-                     Biosignal Files
-                          |
-                          v
-                Binary Data Ingestion
-                          |
-                          v
-                   Signal Parser
-                          |
-                          v
-                Validation Framework
-                          |
-                          v
-          Filtering + Normalization Pipeline
-                          |
-                          v
-                Sliding Window Engine
-                          |
-                          v
-             Self-Supervised Encoder
-                   (TS2Vec)
-                          |
-                          v
-                 Signal Embeddings
-                          |
-                          |
-             +------------+------------+
-             |                         |
-             v                         v
+                       |
+                       v
 
-      Signal Features          Learned Representation
+              Fusion Classifier
 
-             |                         |
-             +------------+------------+
+                       |
+                       v
 
-                          |
-                          v
+        Normal / Alert / Critical Prediction
 
-                Fusion Classifier
-
-                          |
-                          v
-
-          Normal / Alert / Critical Prediction
-
-                          |
-                          v
+                       |
+                       v
 
              Monitoring & Drift Detection
 
 
----
-
-# 5. Machine Learning Approach
-
-
-## 5.1 Data Processing Pipeline
+5. Machine Learning Approach
+5.1 Data Processing Pipeline
 
 The preprocessing framework performs:
 
-### Data ingestion
+Data Ingestion
+Binary sensor file loading
+Automatic signal identification
+Data type validation
+Signal Processing
+Noise filtering
+Bandpass filtering
+Signal normalization
+Signal quality assessment
+Temporal Segmentation
 
-- Binary sensor file loading
-- Automatic signal identification
-- Data type validation
-
-
-### Signal preprocessing
-
-- Noise filtering
-- Bandpass filtering
-- Signal normalization
-- Quality evaluation
-
-
-### Temporal segmentation
-
-Signals are transformed into fixed-length windows:
-
+Continuous biosignals are converted into fixed-length temporal windows:
 
 Continuous Signal
 
 | Window | Window | Window |
+6. Representation Learning
+TS2Vec Self-Supervised Learning
 
-
-
----
-
-# 6. Representation Learning
-
-
-## TS2Vec Self-Supervised Learning
-
-
-Instead of manually designing features,
-the model learns temporal representations directly from raw signals.
-
+The platform uses TS2Vec-based representation learning to automatically learn temporal patterns from biosignals without requiring manual feature engineering.
 
 Architecture:
 
-
 Signal Window
 
-  |
-  v
+      |
+      v
 
 Dilated Residual Encoder
 
-  |
-  v
+      |
+      v
 
 Temporal Representation
 
-  |
-  v
+      |
+      v
 
 Embedding Vector
 
-
-
 Benefits:
 
-- Learns complex temporal patterns
-- Reduces dependency on handcrafted features
-- Improves downstream classification performance
+Learns complex temporal dependencies
+Captures hidden signal patterns
+Reduces dependency on handcrafted features
+Improves downstream classification
 
 
----
+7. Classification Framework
 
-# 7. Classification Framework
+The final classifier combines:
 
+TS2Vec Embeddings
 
-The final prediction model combines:
+        +
 
+Physiological Signal Features
 
-Learned Embeddings
-+
-Signal Statistical Features
-|
-v
+        |
+
+        v
+
 Fusion Neural Network
-|
-v
+
+        |
+
+        v
+
 Prediction
 
+Prediction classes:
+
+Class	Meaning
+Normal	Expected physiological pattern
+Alert	Potential abnormal pattern
+Critical	High-risk physiological pattern
 
 
-Output classes:
+8. Model Performance & Evaluation
 
-| Class | Meaning |
-|-|-|
-| Normal | Healthy signal pattern |
-| Alert | Potential abnormality |
-| Critical | High-risk pattern |
+The fusion classifier was evaluated on a held-out validation dataset.
 
-
----
-
-# 8. Model Evaluation
+Dataset Split
+Dataset	Samples
+Total Samples	1,132
+Training Set	905
+Validation Set	227
 
 
-Evaluation includes:
+Classification Metrics
+Metric	Score
+Accuracy	87.22%
+Precision	89.82%
+Recall	85.13%
+F1 Score	84.92%
 
 
-## Classification Metrics
+Confusion Matrix
+                 Predicted
 
-- Accuracy
-- Precision
-- Recall
-- F1 Score
-- Confusion Matrix
+              Normal  Alert  Critical
 
+Normal            22      0        0
 
-## Model Validation
+Alert              4     36       25
 
-- Dataset split validation
-- Reproducible experiments
-- Checkpoint management
+Critical           0      0      140
 
 
----
+Class Performance
+Class	Precision	Recall	F1 Score
+Normal	84.6%	100%	91.7%
+Alert	100%	55.4%	71.3%
+Critical	84.8%	100%	91.8%
 
-# 9. Data Quality & Monitoring
 
+Observations
+Strong detection performance for Normal and Critical classes.
+Critical detection achieved 100% recall.
+Alert classification requires additional optimization due to overlap with Critical patterns.
+Future improvements include threshold optimization, additional training data, and class balancing.
+
+
+9. End-to-End Production Inference
+
+The complete inference pipeline was validated using real biosignal binary files.
+
+Input:
+
+data/test/
+
+├── Ephy.bin
+├── Oxym.bin
+├── IMU.bin
+└── Aux.bin
+
+Inference workflow:
+
+Binary Biosignal Files
+
+        |
+        v
+
+Signal Preprocessing
+
+        |
+        v
+
+Temporal Window Generation
+
+        |
+        v
+
+TS2Vec Embedding Generation
+
+        |
+        v
+
+Feature Extraction
+
+        |
+        v
+
+Feature Fusion (131 features)
+
+        |
+        v
+
+Classifier Prediction
+
+        |
+        v
+
+Prediction Response
+
+Example output:
+
+{
+    "prediction": "Alert",
+    "confidence": 0.7357,
+    "risk_level": "Medium",
+    "recommended_action": "Monitor patient condition",
+    "model_version": "v1.0.0"
+}
+
+
+
+10. Data Quality & Monitoring
 
 Production ML systems require continuous monitoring.
 
-
 Implemented:
 
-- Signal validation
-- Quality scoring
-- Drift detection
-- Model performance monitoring
+Signal validation
+Quality scoring
+Drift detection framework
+Model performance monitoring
+
 
 
 Future production extension:
 
-
 Production Data
 
-  |
-  v
+       |
+       v
 
-Drift Detection
+Data Drift Detection
 
-  |
-  v
+       |
+       v
 
-Performance Degradation
+Performance Monitoring
 
-  |
-  v
+       |
+       v
 
 Automated Retraining Pipeline
 
 
-
----
-
-# 10. MLOps Architecture
-
-
-
+11. MLOps Architecture
 Developer Commit
 
-  |
-  v
+        |
+        v
 
 GitHub Actions
 
-  |
-  +----------------+
-  |                |
-  v                v
+        |
+        +----------------+
+        |                |
+        v                v
 
-Code Quality Model Tests
+   Ruff Validation     Black Formatting
 
-(Ruff) (Pytest)
+        |
+        v
 
-  |
-  v
+   MyPy Type Checking
 
-Type Validation
+        |
+        v
 
-(MyPy)
+   Automated Tests
 
-  |
-  v
+        |
+        v
 
-Container Deployment
-
-
-
----
-
-# 11. Technology Stack
+ Docker Deployment
 
 
-## Programming
-
-- Python 3.11
-
-
-## Machine Learning
-
-- PyTorch
-- TS2Vec
-- Scikit-learn
-
-
-## Data Processing
-
-- NumPy
-- SciPy
-- Pandas
-
-
-## MLOps
-
-- MLflow
-- Evidently
-- Docker
-- GitHub Actions
+12. Technology Stack
+Programming
+Python 3.11
+Machine Learning
+PyTorch
+TS2Vec
+Scikit-learn
+Data Processing
+NumPy
+SciPy
+Pandas
+MLOps
+MLflow
+Evidently
+Docker
+GitHub Actions
+Prometheus
+Engineering Quality
+Ruff
+Black
+MyPy
+Pytest
 
 
-## Engineering Quality
-
-- Ruff
-- Black
-- MyPy
-- Pytest
-
-
----
-
-# 12. Repository Structure
-
-
-
+13. Repository Structure
 biosignal-ai-platform/
 
 ├── src/
 │
-│ ├── data_loader/
-│ ├── parser/
-│ ├── preprocessing/
-│ ├── validation/
-│ ├── quality/
-│ ├── windowing/
-│ ├── embeddings/
-│ ├── classifier/
-│ ├── pipeline/
-│ └── config/
+│   ├── data_loader/
+│   ├── parser/
+│   ├── preprocessing/
+│   ├── validation/
+│   ├── quality/
+│   ├── windowing/
+│   ├── features/
+│   ├── embeddings/
+│   ├── classifier/
+│   ├── inference/
+│   ├── monitoring/
+│   ├── pipeline/
+│   └── config/
 │
 ├── tests/
 │
-├── artifacts/
+├── scripts/
+│   ├── train.py
+│   ├── evaluate.py
+│   └── inference.py
 │
 ├── configs/
+│
+├── deployment/
+│   ├── docker/
+│   └── kubernetes/
+│
+├── docs/
+│
+├── artifacts/
 │
 ├── Dockerfile
 │
@@ -421,42 +460,50 @@ biosignal-ai-platform/
 └── README.md
 
 
-
----
-
-# 13. Installation
-
-
-```bash
+14. Installation
 git clone https://github.com/nandhujay91/biosignal-ai-platform.git
 
 cd biosignal-ai-platform
 
 uv sync
-14. Development Validation
+
+
+15. Running the Pipeline
+Training
+uv run python scripts/train.py
+Evaluation
+uv run python scripts/evaluate.py
+Inference
+uv run python scripts/inference.py
+16. Development Validation
 
 Run complete quality checks:
 
 uv run ruff check .
 
-uv run black --check src tests
+uv run black --check src tests scripts
 
 uv run mypy src
 
 uv run pytest
 
-Expected:
+Validation status:
 
 ✓ Code quality passed
+✓ Formatting passed
 ✓ Type checking passed
 ✓ Test suite passed
-15. Future Roadmap
+
+31 tests passed
+
+
+17. Future Roadmap
 Production Deployment
 FastAPI inference service
 Real-time sensor streaming
 Kubernetes deployment
 Cloud infrastructure
-Advanced ML
+Advanced Machine Learning
 Online learning
 Automated retraining
 Model registry
@@ -465,6 +512,23 @@ Monitoring
 Grafana dashboards
 Prometheus metrics
 Data drift alerts
+
+
+18. Project Validation Summary
+
+The complete ML lifecycle has been validated:
+
+✓ Biosignal ingestion pipeline implemented
+✓ Signal preprocessing framework completed
+✓ TS2Vec representation learning implemented
+✓ Fusion classifier trained successfully
+✓ Validation accuracy: 87.22%
+✓ Critical recall: 100%
+✓ Model artifacts generated
+✓ End-to-end inference validated
+✓ Production response generated
+✓ Automated testing implemented
+✓ Code quality pipeline completed
 
 Author
 Nandini Arjunan
@@ -477,4 +541,3 @@ Deep Learning
 MLOps
 Time-Series AI
 Healthcare AI Systems
-
